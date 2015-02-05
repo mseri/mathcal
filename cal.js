@@ -46,19 +46,29 @@ var categories = [{
     account: 'imperial.pure.analysis%40gmail.com', 
     label: "Imperial College Analysis Seminar",
     url: "http://www.imperial.ac.uk/a-z-research/mathematical-analysis/pure-analysis-and-pdes/activities/",
-    color: genColor()
+    color: genColor(),
+    parser: "gCal"
   },
   {
     account: 'gkij4q9m1249c2osijddav6dig%40group.calendar.google.com', 
     label: "KCL Analysis Seminar",
     url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/analysis/events/seminars.aspx",
-    color: genColor()
+    color: genColor(),
+    parser: "gCal"
   },
   {
     account: 'giu2ael3iq4sd9ucqa2uur7048%40group.calendar.google.com',
     label: "KCL/UCL Geometry Seminar",
     url: "http://www.ucl.ac.uk/geometry/seminars.htm",
-    color: genColor()
+    color: genColor(),
+    parser: "gCal"
+  },
+  {
+    account: 'magicseminar%40googlemail.com',
+    label: "MAGIC Seminar",
+    url: "http://coates.ma.ic.ac.uk/magic/",
+    color: genColor(),
+    parser: "gCal"
 }];
 
 
