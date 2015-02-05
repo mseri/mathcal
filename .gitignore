@@ -1,0 +1,6 @@
+venv
+*.pyc
+lib/printutils.py
+lib/las.html
+__pycache__
+__pycache__/*
