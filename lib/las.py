@@ -142,8 +142,8 @@ def getEventList(soup):
     ( (data[i], data[i+1], data[i+2]) for i in range(len(data)-2) )
   )
 
-  # The final weird sum is to concatenate the lists
-  events = filter(lambda s: s['title'] != " - " and s['description'] != "",
+  # We can accept empty abstracts but not empty titles
+  events = filter(lambda s: s['title'] != " - ",
     chain.from_iterable(
       filter(lambda t: t != None,
         map(cleanTriplets, triplets)
