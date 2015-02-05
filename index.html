@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-  <title>London Mathematical Calendar</title>
+  <title>London's Maths Event Calendar</title>
   
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/redmond/jquery-ui.min.css">
   <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.min.css">
@@ -48,6 +48,10 @@
       font-size: 14px;
     }
 
+    #description div {
+      padding: 3px;
+    }
+
     #loading {
       display: none;
       position: absolute;
@@ -60,7 +64,8 @@
       margin: 0 auto;
     }
 
-    .fc-event{
+    .fc-event {
+      padding: 3px;
       cursor: pointer;
     }
 
@@ -79,6 +84,8 @@
 </head>
 <body>
   <div id="container">
+    <h1>London's Maths Event Calendar</h1>
+
     <div id="calendar" class="fc fc-ltr"></div>
 
     <div id="legend">
@@ -86,9 +93,14 @@
     </div>
 
     <div id="eventContent" title="Event Details" style="display:none;">
-      <h2 id="eventTitle"></h2><br/>
+      <h3 id="eventTitle"></h3>
       <div id="eventInfo"></div>
       <!-- <p><strong><a id="eventLink" target="_blank">Read More</a></strong></p> -->
+    </div>
+
+    <div id="description">
+      <p>This calendar diplays few (for the moment) mathematical event in London. Click on the calendar to get additional information.</p>
+      <p>If you would like your seminars to be added please send an email to m(dot)seri(at)ucl(dot)ac(dot)uk.</p>
     </div>
   </div>
 </body>
