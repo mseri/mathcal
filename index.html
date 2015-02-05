@@ -29,6 +29,8 @@
         eventClick:  function(event, jsEvent, view) {
           //set the values and open the modal
           $("#eventInfo").html(event.content);
+          $("#eventStart").html(event.start.format("dddd, MMMM Do YYYY, h(:mm) a"));
+          $("#eventLocation").html(event.where);
           $("#eventTitle").html(event.title);
           //$("#eventLink").attr('href', event.url);
           $("#eventContent").dialog({ modal: true, title: event.category, width: 500 });
@@ -76,6 +78,16 @@
       cursor: pointer;
     }
 
+    #eventContent h5 {
+      margin-top: -10px;
+      padding: 0;
+    }
+
+    #eventContent h6 {
+      margin-top: -20px;
+      padding: 0;
+    }
+
     #legend {
       margin-top: 20px;
       border-bottom: 1px solid gray;
@@ -87,6 +99,7 @@
       margin-top: 0;
       padding-top: 5px;
     }
+
 
     #legend ul {
       padding-left:10px;
@@ -112,8 +125,10 @@
 
     <div id="eventContent" title="Event Details" style="display:none;">
       <h3 id="eventTitle"></h3>
+      <h5 id="eventStart"></h5>
+      <h6 id="eventLocation"></h6>
       <div id="eventInfo"></div>
-      <!-- <p><strong><a id="eventLink" target="_blank">Read More</a></strong></p> -->
+      <!--<p><strong><a id="eventLink" target="_blank">Read More</a></strong></p> -->
     </div>
 
     <div id="description">

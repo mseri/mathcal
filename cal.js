@@ -45,16 +45,19 @@ function genColor() {
 var categories = [{
     account: 'imperial.pure.analysis%40gmail.com', 
     label: "Imperial College Analysis Seminar",
+    url: "http://www.imperial.ac.uk/a-z-research/mathematical-analysis/pure-analysis-and-pdes/activities/",
     color: genColor()
   },
   {
     account: 'gkij4q9m1249c2osijddav6dig%40group.calendar.google.com', 
     label: "KCL Analysis Seminar",
+    url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/analysis/events/seminars.aspx",
     color: genColor()
   },
   {
     account: 'giu2ael3iq4sd9ucqa2uur7048%40group.calendar.google.com',
-    label: "KCL and UCL Geometry Seminar",
+    label: "KCL/UCL Geometry Seminar",
+    url: "http://www.ucl.ac.uk/geometry/seminars.htm",
     color: genColor()
 }];
 
@@ -92,13 +95,17 @@ $(document).ready(function() {
       var content = (entry.content.type == 'html') ? entry.content.$t : escape(entry.content.$t);
 
       // Get When and Where from the formatted content in the google calendar string
-      // TODO: Extract description if present
-      var wAndWStr = content.replace(/(<br \/>|\n)/g,';');
-      var wAndWRegex = /When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to (.*\d+:?\d*[ap]m).*Where: ([^;]*);+.*/;
-      var whenAndWhere = wAndWRegex.exec(wAndWStr);
+      var strippedContent = content.replace(/(<br \/>|\n)/g,'§');
+      var wAndWRegex = /When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to (.*\d+:?\d*[ap]m).*Where: ([^§]*)§+.*/;
+      var whenAndWhere = wAndWRegex.exec(strippedContent);
 
+      var descRegex = /.*Event Description: (.*)/;
+      var description = descRegex.exec(strippedContent);
+
+      // whenAndWhere infos are essential. If something went wrong with
+      // them we are not going to process the event
       if (whenAndWhere) {
-        // get rid of the original string (wAndWStr)
+        // get rid of the original string (strippedContent)
         whenAndWhere = whenAndWhere.splice(1);
 
         // fix start and stop datetime format
@@ -115,15 +122,21 @@ $(document).ready(function() {
 
         var where = whenAndWhere[2];
 
+        if (description) {
+          description = description[1].replace(/§/g,'<br />');
+        }
+
         return {
           title: title, 
           start: start, 
           end: stop,
-          content: content,
+          where: where,
+          content: description, 
           category: category.label,
+          categoryurl: category.url,
           backgroundColor: category.color,
           borderColor: lightenDarkenColor(category.color, -42),
-          textColor: lightenDarkenColor(category.color, -105),
+          textColor: lightenDarkenColor(category.color, -112),
           allDay: false
         };
       }
@@ -134,13 +147,15 @@ $(document).ready(function() {
 
   function styleCategory(category) {
     var item = [
-      '<li style="color:', 
-      lightenDarkenColor(category.color, -105),
-      '; border-color:',
+      '<li style="border-color:',
       lightenDarkenColor(category.color, -42),
       '; background-color:',
       category.color,
-      ';">',
+      ';"><a style="text-decoration: none; color:', 
+      lightenDarkenColor(category.color, -112),
+      ';" href="',
+      category.url,
+      '" target="_blank">',
       category.label,
       '</li>\n'
       ];
