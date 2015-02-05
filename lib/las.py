@@ -185,7 +185,7 @@ def jsonifyLAS(cachedLAS = CachedResult()):
     print("JSONification of London Analysis Seminar webpage")
     soup = makeSoup(LAS)
     eventList = getEventList(soup)
-    cachedLAS = json.dumps(list(eventList), default=jsonDateTimeHandler)
+    cachedLAS.update(json.dumps(list(eventList), default=jsonDateTimeHandler))
 
   return cachedLAS
 
