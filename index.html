@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <title>London Mathematical Calendar</title>
+  
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/redmond/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.min.css">
+  <link rel="stylesheet" type="text/css" media ="print" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.print.css">
+  
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.min.js"></script>
+  <script type="text/javascript"> 
+    $(document).ready(function() {
+      
+      $('#calendar').fullCalendar({
+        theme:true,
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,agendaWeek,agendaDay'
+        },
+        weekends: false,
+        editable: false,
+        eventLimit: true, // allow "more" link when too many events
+        eventClick:  function(event, jsEvent, view) {
+          //set the values and open the modal
+          $("#eventInfo").html(event.content);
+          $("#eventTitle").html(event.title);
+          //$("#eventLink").attr('href', event.url);
+          $("#eventContent").dialog({ modal: true, title: event.category, width: 500 });
+        },
+        timeFormat: 'h(:mm)t - ',
+        columnFormat: 'dddd',
+      });
+    });
+  </script>
+  <script type="text/javascript" src="cal.js"></script>
+
+  <style>
+    body {
+      margin: 40px 10px;
+      padding: 0;
+      font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+      font-size: 14px;
+    }
+
+    #loading {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    #container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .fc-event{
+      cursor: pointer;
+    }
+
+    #legend ul {
+      width: 50%;
+      padding-left:10px;
+    }
+
+    #legend li {
+      list-style-type: none;
+      border-radius: 4px;
+      padding: 3px;
+      margin: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="calendar" class="fc fc-ltr"></div>
+
+    <div id="legend">
+    <h2>Color Legend</h2>
+    </div>
+
+    <div id="eventContent" title="Event Details" style="display:none;">
+      <h2 id="eventTitle"></h2><br/>
+      <div id="eventInfo"></div>
+      <!-- <p><strong><a id="eventLink" target="_blank">Read More</a></strong></p> -->
+    </div>
+  </div>
+</body>
+</html>
