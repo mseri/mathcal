@@ -43,6 +43,13 @@ function genColor() {
 // for the moment we manage them by hand here
 // TODO: add url property
 var categories = [{
+    account: 'https://nameless-cove-7919.herokuapp.com/json/london_analysis_seminar', 
+    label: "London Analysis and Probability Seminar",
+    url: "http://www.london-analysis-seminar.org.uk/",
+    color: genColor(),
+    parser: "flask"
+  },
+  {
     account: 'imperial.pure.analysis%40gmail.com', 
     label: "Imperial College Analysis Seminar",
     url: "http://www.imperial.ac.uk/a-z-research/mathematical-analysis/pure-analysis-and-pdes/activities/",
@@ -75,17 +82,30 @@ var categories = [{
 $(document).ready(function() {
 
   // Get basic JSON feed from Google Calendar
-  function getGoogleJSON(category) {
-    return $.getJSON( 'https://www.google.com/calendar/feeds/' + category.account +'/public/basic?alt=json&hl=en').done(function(data) {
+  // or our Flask App
+  function getJSON(category) {
+    var url;
+    if (category.parser == "gCal") {
+      url = 'https://www.google.com/calendar/feeds/' + category.account +'/public/basic?alt=json&hl=en';
+    } else {
+      url = category.account;
+    }
+
+    return $.getJSON(url).done(function(data) {
          listEvents(data, category);
        });
   }
 
   function listEvents(root, category) {
-    var feed = root.feed;
-    var entries = feed.entry || [];
+    var entries;
+    if (category.parser == "gCal") {
+      var feed = root.feed;
+      entries = feed.entry || [];
+    } else {
+      entries = root;
+    }
 
-    var events = entries.map(getEventWithCategory(category)).filter(isNull);
+    var events = entries.map(getEventWith(category)).filter(isNull);
 
     $('#calendar').fullCalendar( 'addEventSource', events);
     $('#calendar').fullCalendar( 'refetchEvents' );
@@ -98,61 +118,85 @@ $(document).ready(function() {
   // build the vent out of google's calendar feed entries
   // it uses horrible hacked regex parsing of the content to extract and 
   // re-elaborate the data
-  function getEventWithCategory(category){
+  function getEventWith(category) {
     return function getEvent(entry) {
-      // this is easy, just get title and content
-      var title = (entry.title.type == 'html') ? entry.title.$t : escape(entry.title.$t);
-      var content = (entry.content.type == 'html') ? entry.content.$t : escape(entry.content.$t);
-
-      // Get When and Where from the formatted content in the google calendar string
-      var strippedContent = content.replace(/(<br \/>|\n)/g,'§');
-      var wAndWRegex = /When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to (.*\d+:?\d*[ap]m).*Where: ([^§]*)§+.*/;
-      var whenAndWhere = wAndWRegex.exec(strippedContent);
-
-      var descRegex = /.*Event Description: (.*)/;
-      var description = descRegex.exec(strippedContent);
-
-      // whenAndWhere infos are essential. If something went wrong with
-      // them we are not going to process the event
-      if (whenAndWhere) {
-        // get rid of the original string (strippedContent)
-        whenAndWhere = whenAndWhere.splice(1);
-
-        // fix start and stop datetime format
-        // get (\d\d?)([ap]m) and make into $1:00 $2
-        var start = new Date(
-          whenAndWhere[0].replace(/([ap]m)/, " $1").replace(/ (\d\d?) /," $1:00 ")
-          );
-
-        // add day in fron of stop and fix the time
-        // FIXME: I am assuming start/stop in the same day
-        var stop = new Date(
-          whenAndWhere[0].replace(/\d\d?:?\d?\d?\s?[ap]m/, whenAndWhere[1]).replace(/([ap]m)/, " $1").replace(/ (\d\d?) /," $1:00 ")
-          );
-
-        var where = whenAndWhere[2];
-
-        if (description) {
-          description = description[1].replace(/§/g,'<br />');
-        }
-
-        return {
-          title: title, 
-          start: start, 
-          end: stop,
-          where: where,
-          content: description, 
-          category: category.label,
-          categoryurl: category.url,
-          backgroundColor: category.color,
-          borderColor: lightenDarkenColor(category.color, -42),
-          textColor: lightenDarkenColor(category.color, -112),
-          allDay: false
-        };
+      if (category.parser == "gCal"){
+        return getGCalEvent(entry, category);
       }
 
-      return null;
+      return getFlaskEvent(entry, category);
     };
+  }
+
+  function getGCalEvent(entry, category) {
+    // this is easy, just get title and content
+    var title = (entry.title.type == 'html') ? entry.title.$t : escape(entry.title.$t);
+    var content = (entry.content.type == 'html') ? entry.content.$t : escape(entry.content.$t);
+
+    // Get When and Where from the formatted content in the google calendar string
+    var strippedContent = content.replace(/(<br \/>|\n)/g,'§');
+    var wAndWRegex = /When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to (.*\d+:?\d*[ap]m).*Where: ([^§]*)§+.*/;
+    var whenAndWhere = wAndWRegex.exec(strippedContent);
+
+    var descRegex = /.*Event Description: (.*)/;
+    var description = descRegex.exec(strippedContent);
+
+    // whenAndWhere infos are essential. If something went wrong with
+    // them we are not going to process the event
+    if (whenAndWhere) {
+      // get rid of the original string (strippedContent)
+      whenAndWhere = whenAndWhere.splice(1);
+
+      // fix start and stop datetime format
+      // get (\d\d?)([ap]m) and make into $1:00 $2
+      var start = new Date(
+        whenAndWhere[0].replace(/([ap]m)/, " $1").replace(/ (\d\d?) /," $1:00 ")
+        );
+
+      // add day in fron of stop and fix the time
+      // FIXME: I am assuming start/stop in the same day
+      var stop = new Date(
+        whenAndWhere[0].replace(/\d\d?:?\d?\d?\s?[ap]m/, whenAndWhere[1]).replace(/([ap]m)/, " $1").replace(/ (\d\d?) /," $1:00 ")
+        );
+
+      var where = whenAndWhere[2];
+
+      if (description) {
+        description = description[1].replace(/§/g,'<br />');
+      }
+
+      return {
+        title: title, 
+        start: start, 
+        end: stop,
+        where: where,
+        content: description, 
+        category: category.label,
+        categoryurl: category.url,
+        backgroundColor: category.color,
+        borderColor: lightenDarkenColor(category.color, -42),
+        textColor: lightenDarkenColor(category.color, -112),
+        allDay: false
+      };
+    }
+
+    return null;
+  }
+
+  function getFlaskEvent(entry, category) {
+    return {
+        title: entry.title, 
+        start: new Date(entry.start), 
+        end: new Date(entry.stop),
+        where: entry.location,
+        content: entry.description, 
+        category: category.label,
+        categoryurl: category.url,
+        backgroundColor: category.color,
+        borderColor: lightenDarkenColor(category.color, -42),
+        textColor: lightenDarkenColor(category.color, -112),
+        allDay: false
+      };
   }
 
   function styleCategory(category) {
@@ -183,6 +227,6 @@ $(document).ready(function() {
 
   // execute scraping and elaborations
   // cross fingers and wait a little
-  categories.map(getGoogleJSON);
+  categories.map(getJSON);
   generateLegend(categories);
 });
