@@ -90,7 +90,7 @@ def generateDescription(acc, content):
         url = content['href']
         if url[-4:] == 'html':
           abstractPage = requests.get(url)
-          soup = BeautifulSoup(abstractPage.content)
+          soup = BeautifulSoup(abstractPage.content.replace(b"<br>",b"").replace(b"<br/>",b""))
           abstract = next(el for el in soup.body.contents if  type(el) == NavigableString and el.strip()[:8] == "Abstract")
           acc['abstract'] = abstract.strip()
       except:
