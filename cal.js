@@ -43,7 +43,7 @@ function genColor() {
 // for the moment we manage them by hand here
 // TODO: maybe account is not the best identifier there...
 var categories = [{
-    account: 'https://nameless-cove-7919.herokuapp.com/json/london_analysis_seminar', 
+    account: 'https://nameless-cove-7919.herokuapp.com/json/las', 
     label: "London Analysis and Probability Seminar",
     url: "http://www.london-analysis-seminar.org.uk/",
     color: genColor(),
@@ -69,6 +69,13 @@ var categories = [{
     url: "http://www.ucl.ac.uk/geometry/seminars.htm",
     color: genColor(),
     parser: "gCal"
+  },
+  {
+    account: 'https://nameless-cove-7919.herokuapp.com/json/nts',
+    label: "Number Theory Seminar",
+    url: "http://www.homepages.ucl.ac.uk/~ucahsze/seminars.html",
+    color: genColor(),
+    parser: "flask"
   },
   {
     account: 'magicseminar%40googlemail.com',
