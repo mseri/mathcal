@@ -76,6 +76,20 @@ var categories = [{
     url: "http://coates.ma.ic.ac.uk/magic/",
     color: genColor(),
     parser: "gCal"
+  },
+  {
+    account: '84rn4klt27550hfpciblhjb71s%40group.calendar.google.com',
+    label: "KCL Disordered System Seminar",
+    url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/disorderedsys/seminars.aspx",
+    color: genColor(),
+    parser: "gCal"
+  },
+  {
+    account: 'fnmlc1qjb290apdf07h02ut59s%40group.calendar.google.com',
+    label: "KCL Theoretical Physics Seminar",
+    url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/theorphysics/seminars.aspx",
+    color: genColor(),
+    parser: "gCal"
 }];
 
 
