@@ -33,7 +33,7 @@
           //$("#eventLink").attr('href', event.url);
           $("#eventContent").dialog({ modal: true, title: event.category, width: 500 });
         },
-        timeFormat: 'h(:mm)t - ',
+        timeFormat: 'h(:mm)t ',
         columnFormat: 'dddd',
       });
     });
@@ -48,7 +48,14 @@
       font-size: 14px;
     }
 
-    #description div {
+    h1#title {
+      margin-bottom: 40px;
+      border-bottom: 1px solid gray;
+    }
+
+    div#description {
+      margin-top: 20px;
+      padding-top: 20px; 
       padding: 3px;
     }
 
@@ -69,8 +76,19 @@
       cursor: pointer;
     }
 
-    #legend ul {
+    #legend {
+      margin-top: 20px;
+      border-bottom: 1px solid gray;
+      border-top: 1px solid gray;
       width: 50%;
+    }
+
+    #legend h2 {
+      margin-top: 0;
+      padding-top: 5px;
+    }
+
+    #legend ul {
       padding-left:10px;
     }
 
@@ -84,12 +102,12 @@
 </head>
 <body>
   <div id="container">
-    <h1>London's Maths Event Calendar</h1>
+    <h1 id="title">London's Maths Event Calendar</h1>
 
     <div id="calendar" class="fc fc-ltr"></div>
 
     <div id="legend">
-    <h2>Color Legend</h2>
+    <h2 id="legendTitle">Color Legend</h2>
     </div>
 
     <div id="eventContent" title="Event Details" style="display:none;">
@@ -100,7 +118,7 @@
 
     <div id="description">
       <p>This calendar diplays few (for the moment) mathematical event in London. Click on the calendar to get additional information.</p>
-      <p>If you would like your seminars to be added please send an email to m(dot)seri(at)ucl(dot)ac(dot)uk.</p>
+      <p>If you would like your seminars to be added please send an email to <strong>m(dot)seri(at)ucl(dot)ac(dot)uk</strong>.</p>
     </div>
   </div>
 </body>

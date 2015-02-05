@@ -29,9 +29,9 @@ function darken(col) {
 
 // was getRandomComponent but I'm lazy
 function getRC() {
-  // take a random integer between 0 and 128 (rather than 0 and 255)
+  // take a random integer between 85 (0) and 128 (rather than 0 and 255)
   // then add 127 to make the colour lighter
-  return Math.floor(Math.random() * 128) + 127;
+  return Math.floor(Math.random() * (128-85) + 85) + 127;
 }
 
 function genColor() {
@@ -41,6 +41,7 @@ function genColor() {
 
 // These will be later loaded from a separate JSON file, 
 // for the moment we manage them by hand here
+// TODO: add url property
 var categories = [{
     account: 'imperial.pure.analysis%40gmail.com', 
     label: "Imperial College Analysis Seminar",
