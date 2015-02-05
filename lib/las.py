@@ -20,14 +20,14 @@ import json
 def getFilePath(fileName):
     return os.path.join(os.path.dirname(__file__), fileName)
 
-def saveReqToFile(req, fileName):
+def saveReqToFile(req, fileName, cached):
   # Save to file the content of request...
   theFile = getFilePath(fileName)
 
-  lastModified = (parse(req.headers['last-modified']).replace(tzinfo=None) - datetime(1970,1,1).replace(tzinfo=None)).total_seconds()
+  remoteLastModified = (parse(req.headers['last-modified']).replace(tzinfo=None) - datetime(1970,1,1).replace(tzinfo=None)).total_seconds()
 
-  if os.path.isfile(fileName) and os.path.getmtime(fileName).replace(tzinfo=None) > lastModified:
-    printTab("File %s already present, skipping download" % (fileName))
+  if cached.lastUpdate > remoteLastModified and cached.cache != "":
+    print ("Cache still current, skipping download of %s" % (fileName))
     return False
 
   print("Saving %s to %s" % (req.url, fileName))
@@ -46,7 +46,7 @@ def getRequest(url):
 
 def makeSoup(fileName):
   with open(getFilePath(fileName), 'r') as f:
-      soup = BeautifulSoup((f))
+      soup = BeautifulSoup(f,"html5lib")
 
   return soup
 
@@ -92,7 +92,7 @@ def generateDescription(acc, content):
           abstractPage = requests.get(url)
           soup = BeautifulSoup(abstractPage.content)
           abstract = next(el for el in soup.body.contents if  type(el) == NavigableString and el.strip()[:8] == "Abstract")
-          acc['abstract'] += abstract.strip()
+          acc['abstract'] = abstract.strip()
       except:
         acc['abstract'] = "<a href='" + content['href'] + "' target='_blank'>Click here for the abstract"
     elif type(content) != Tag:
@@ -111,6 +111,7 @@ def cleanTriplets(triplet):
   seminars = list(map(getSeminarInfo, rawSeminars))
 
   if start and end and location and seminars and len(seminars) == 2:
+    # print('\tSeminars processed')
     seminar1 = {
       'start': start,
       'end': start + relativedelta(hours=+1),
@@ -128,9 +129,10 @@ def cleanTriplets(triplet):
     }
     return [seminar1, seminar2]
 
+  # print('\tNot enough data to process')
   return None
 
-def admissibleTriplets(triplet):
+def admissibleTriplets(triplet): 
   return (type(triplet[0]) == Tag) and (triplet[0].name == "strong") and (type(triplet[1]) == NavigableString) and (type(triplet[2]) == Tag) and (triplet[2].name == "ul")
 
 def getEventList(soup):
@@ -149,6 +151,19 @@ def getEventList(soup):
 
   return events
 
+#########################################################
+
+class CachedResult():
+  def __init__(self):
+    self.cache = ""
+    self.lastUpdate = self.epochDate(datetime(1970,1,1))
+
+  def update(self, cache):
+    self.cache = cache
+    self.lastUpdate  = self.epochDate(datetime.now())
+
+  def epochDate(self, date):
+    return (date.replace(tzinfo=None) - datetime(1970,1,1).replace(tzinfo=None)).total_seconds()
 
 #########################################################
 # http://stackoverflow.com/questions/455580/json-datetime-between-python-and-javascript
@@ -163,19 +178,18 @@ def jsonDateTimeHandler(obj):
 
 #########################################################
 # generate JSONFrom the list of dictionaries
-def jsonifyLAS(cachedLAS = None):
-  if cachedLAS == None:
-    cachedLAS = ""
+def jsonifyLAS(cachedLAS = CachedResult()):
 
   LAS = 'las.html'
-  if saveReqToFile(getRequest("http://www.london-analysis-seminar.org.uk/"), LAS) or cachedLAS == "":
-    print("JSONification of London Analysis Seminar")
+  if saveReqToFile(getRequest("http://www.london-analysis-seminar.org.uk/"), LAS, cachedLAS):
+    print("JSONification of London Analysis Seminar webpage")
     soup = makeSoup(LAS)
     eventList = getEventList(soup)
-
     cachedLAS = json.dumps(list(eventList), default=jsonDateTimeHandler)
 
   return cachedLAS
 
+
+#########################################################
 if __name__ == "__main__":
   print(jsonifyLAS())
