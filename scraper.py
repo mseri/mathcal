@@ -12,4 +12,4 @@ def root():
 @app.route('/json/london_analysis_seminar')
 
 def LAS():
-  return jsonifyLAS(cachedLAS).cache
+  return jsonifyLAS().cache
