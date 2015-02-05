@@ -41,7 +41,7 @@ function genColor() {
 
 // These will be later loaded from a separate JSON file, 
 // for the moment we manage them by hand here
-// TODO: add url property
+// TODO: maybe account is not the best identifier there...
 var categories = [{
     account: 'https://nameless-cove-7919.herokuapp.com/json/london_analysis_seminar', 
     label: "London Analysis and Probability Seminar",
@@ -115,9 +115,9 @@ $(document).ready(function() {
     return element != null;
   }
 
-  // build the vent out of google's calendar feed entries
-  // it uses horrible hacked regex parsing of the content to extract and 
-  // re-elaborate the data
+  // generate getEvent function to elaborate the entries from the
+  // JSON feeds
+  // we use the closure to keep lin 107 shorter and more readable
   function getEventWith(category) {
     return function getEvent(entry) {
       if (category.parser == "gCal"){
@@ -128,6 +128,9 @@ $(document).ready(function() {
     };
   }
 
+  // build the events out of Google calendar's feed entries
+  // (it uses horrible hacked regex parsing of the content to extract and 
+  // re-elaborate the data)
   function getGCalEvent(entry, category) {
     // this is easy, just get title and content
     var title = (entry.title.type == 'html') ? entry.title.$t : escape(entry.title.$t);
@@ -183,6 +186,7 @@ $(document).ready(function() {
     return null;
   }
 
+  // build the event out of our nice flask-scraped-and-generated json
   function getFlaskEvent(entry, category) {
     return {
         title: entry.title, 
@@ -199,6 +203,7 @@ $(document).ready(function() {
       };
   }
 
+  // style and generate the legenda for a category
   function styleCategory(category) {
     var item = [
       '<li style="border-color:',
