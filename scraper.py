@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, request
 from lib.las import jsonifyLAS
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def LAS():
 def add_cors(resp):
     """ Ensure all responses have the CORS headers. This ensures any failures are also accessible
         by the client. """
-    resp.headers['Access-Control-Allow-Origin'] = flask.request.headers.get('Origin','*')
+    resp.headers['Access-Control-Allow-Origin'] = request.headers.get('Origin','*')
     resp.headers['Access-Control-Allow-Credentials'] = 'true'
     resp.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS, GET'
 
