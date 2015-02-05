@@ -1,17 +1,23 @@
 import os
 from flask import Flask, request
 from lib.las import jsonifyLAS
+from lib.nts import jsonifyNTS
 
 app = Flask(__name__)
 # app.debug = True
 
-@app.route('/')
-def root():
-  return ''
+# @app.route('/')
+# def root():
+#   return ''
 
-@app.route('/json/london_analysis_seminar')
+@app.route('/json/las')
 def LAS():
   return jsonifyLAS().cache
+
+@app.route('/json/nts')
+def NTS():
+  return jsonifyNTS().cache
+
 
 # try to solve No 'Access-Control-Allow-Origin' error
 # http://mortoray.com/2014/04/09/allowing-unlimited-access-with-cors/
