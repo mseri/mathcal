@@ -4,18 +4,18 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
   <title>London's Maths Event Calendar</title>
-  
+
   <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/redmond/jquery-ui.min.css">
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.min.css">
   <link rel="stylesheet" type="text/css" media ="print" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.print.css">
-  
+
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.min.js"></script>
-  <script type="text/javascript"> 
+  <script type="text/javascript">
     $(document).ready(function() {
-      
+
       $('#calendar').fullCalendar({
         theme:true,
         header: {
@@ -24,6 +24,7 @@
           right: 'month,agendaWeek,agendaDay'
         },
         weekends: false,
+        businessHours: true,
         editable: false,
         eventLimit: true, // allow "more" link when too many events
         eventClick:  function(event, jsEvent, view) {
