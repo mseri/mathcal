@@ -212,7 +212,7 @@ $(document).ready(function() {
     return {
         title: entry.title, 
         start: new Date(entry.start), 
-        end: new Date(entry.stop),
+        end: new Date(entry.end),
         where: entry.location,
         content: entry.description, 
         category: category.label,
