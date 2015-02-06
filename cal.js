@@ -155,6 +155,12 @@ $(document).ready(function() {
   function getGCalEvent(entry, category) {
     // this is easy, just get title and content
     var title = (entry.title.type == 'html') ? entry.title.$t : escape(entry.title.$t);
+
+    //Workaround for duplicate London Analysis Seminar from Imperial Analysis calendar
+    if (title.slice(0,4) == "LANS") {
+      return null;
+    }
+
     var content = (entry.content.type == 'html') ? entry.content.$t : escape(entry.content.$t);
 
     // Get When and Where from the formatted content in the google calendar string
