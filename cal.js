@@ -97,7 +97,50 @@ var categories = [{
     url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/theorphysics/seminars.aspx",
     color: genColor(),
     parser: "gCal"
-}];
+  },
+  {
+    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/sas',
+    label: "IC Stochastic Analysis Seminar",
+    url: "http://www3.imperial.ac.uk/stochasticanalysisgroup/events",
+    color: genColor(),
+    parser: "flask"
+  },
+  {
+    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/taktic',
+    label: "TAKTIC: Topology and Knot Theory at Imperial College",
+    url: "http://www3.imperial.ac.uk/geometry/seminars/taktic",
+    color: genColor(),
+    parser: "flask"
+  },
+  {
+    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/apde',
+    label: "IC Applied PDEs Seminars",
+    url: "http://www3.imperial.ac.uk/ammp/aboutammp/pdesseminars",
+    color: genColor(),
+    parser: "flask"
+  },
+  {
+    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/ammp',
+    label: "IC Applied Mathematics and Mathematical Physics Seminar",
+    url: "http://www3.imperial.ac.uk/ammp/aboutammp/ammpseminar",
+    color: genColor(),
+    parser: "flask"
+  },
+  {
+    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/fd',
+    label: "IC Fluid dynamics group seminar",
+    url: "http://www3.imperial.ac.uk/ammpfluiddynamics/seminars",
+    color: genColor(),
+    parser: "flask"
+  },
+  {
+    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/ftmp',
+    label: "IC fortnightly seminar on topics in Mathematical Physics",
+    url: "http://www3.imperial.ac.uk/mathematicalphysics/events",
+    color: genColor(),
+    parser: "flask"
+  }
+];
 
 
 $(document).ready(function() {
