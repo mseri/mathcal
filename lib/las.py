@@ -98,8 +98,4 @@ def getEventList(soup):
   return events
 
 def jsonifyLAS(cache = CachedResult()):
-  return jsonifySeminars("http://www.london-analysis-seminar.org.uk/", "LAS", getEventList, cache)
-
-#########################################################
-if __name__ == "__main__":
-  print(jsonifyLAS().cache)
+  return jsonifySeminars("http://www.london-analysis-seminar.org.uk/", getEventList, cache)

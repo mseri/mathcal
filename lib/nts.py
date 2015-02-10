@@ -62,9 +62,4 @@ def getEventList(soup):
   return events
 
 def jsonifyNTS(cache = CachedResult()):
-  return jsonifySeminars("http://www.homepages.ucl.ac.uk/~ucahsze/seminars.html","NTS", getEventList, cache)
-
-
-#########################################################
-if __name__ == "__main__":
-  print(jsonifyNTS().cache)
+  return jsonifySeminars("http://www.homepages.ucl.ac.uk/~ucahsze/seminars.html", getEventList, cache)

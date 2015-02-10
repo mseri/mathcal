@@ -2,13 +2,14 @@ import os
 from flask import Flask, request
 from lib.las import jsonifyLAS
 from lib.nts import jsonifyNTS
+from lib.imp import jsonifySAS, jsonifyTAKTIC ,jsonifyAPDE, jsonifyAMMP, jsonifyFD, jsonifyFTMP
 
 app = Flask(__name__)
 # app.debug = True
 
 # @app.route('/')
 # def root():
-#   return ''
+#   return 'There's nothing here for you!
 
 @app.route('/json/las')
 def LAS():
@@ -17,6 +18,30 @@ def LAS():
 @app.route('/json/nts')
 def NTS():
   return jsonifyNTS().cache
+
+@app.route('/json/ic/sas')
+def SAS():
+    return jsonifySAS().cache
+
+@app.route('/json/ic/taktic')
+def TAKTIC():
+    return jsonifyTAKTIC().cache
+
+@app.route('/json/ic/apde')
+def APDE():
+    return jsonifyAPDE().cache
+
+@app.route('/json/ic/ammp')
+def AMMP():
+    return jsonifyAMMP().cache
+
+@app.route('/json/ic/fd')
+def FD():
+    return jsonifyFD().cache
+
+@app.route('/json/ic/ftmp')
+def FTMP():
+    return jsonifyFTMP().cache
 
 
 # try to solve No 'Access-Control-Allow-Origin' error
