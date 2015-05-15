@@ -83,8 +83,10 @@ class CachedResult():
 #########################################################
 # http://stackoverflow.com/questions/455580/json-datetime-between-python-and-javascript
 def jsonDateTimeHandler(obj):
-    if hasattr(obj, 'isoformat'):
-        return obj.isoformat()
+    if hasattr(obj, "strftime"):
+        return obj.strftime("%a %b %d, %Y %I:%M %p")
+    # if hasattr(obj, 'isoformat'):
+    #     return obj.isoformat()
     # elif isinstance(obj, ...):
     #     return ...
     else:
