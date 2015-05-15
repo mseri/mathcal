@@ -11,9 +11,45 @@ function rgbToHex(red, green, blue) {
     return "#" + ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);
 }
 
+/**
+ * Converts an HSL color value to RGB. Conversion formula
+ * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+ * Assumes h, s, and l are contained in the set [0, 1] and
+ * returns r, g, and b in the set [0, 255].
+ *
+ * @param   Number  h       The hue
+ * @param   Number  s       The saturation
+ * @param   Number  l       The lightness
+ * @return  Array           The RGB representation
+ * http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
+ */
+function hslToRgb(h, s, l){
+    var r, g, b;
+
+    if(s == 0){
+        r = g = b = l; // achromatic
+    }else{
+        var hue2rgb = function hue2rgb(p, q, t){
+            if(t < 0) t += 1;
+            if(t > 1) t -= 1;
+            if(t < 1/6) return p + (q - p) * 6 * t;
+            if(t < 1/2) return q;
+            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+
 // takes a HEX coluor and add the provided amount to each component
 // use negatives to darken and do not exaggerate
-
 function lightenDarkenColor(col, amt) {
   // we use slice to get rid of the # in front of the colour
   var num = parseInt(col.slice(1),16);
@@ -28,14 +64,16 @@ function darken(col) {
 }
 
 // was getRandomComponent but I'm lazy
-function getRC() {
-  // take a random integer between 85 (0) and 128 (rather than 0 and 255)
-  // then add 127 to make the colour lighter
-  return Math.floor(Math.random() * (128-85) + 85) + 127;
-}
+// -- deprecated --
+// function getRC() {
+//   // take a random integer between 85 (0) and 128 (rather than 0 and 255)
+//   // then add 127 to make the colour lighter
+//   return Math.floor(Math.random() * (128-85) + 85) + 127;
+// }
 
-function genColor() {
-  return rgbToHex(getRC(), getRC(), getRC());
+function genColor(idx, l) {
+  //return rgbToHex(getRC(), getRC(), getRC());
+  return hslToRgb(idx*(1.2)/(2*l) + 0.02,0.7,0.82);
 }
 
 // RFC4122 version 4 compliant UUID
@@ -48,135 +86,118 @@ function gUUID() {
 
 // These will be later loaded from a separate JSON file, 
 // for the moment we manage them by hand here
-// TODO: gUIID() must be replaced with a fixed UUID, same for colours...
 var categories = [{
-    id: gUUID(),
     account: 'https://nameless-cove-7919.herokuapp.com/json/las', 
     label: "London Analysis and Probability Seminar",
     url: "http://www.london-analysis-seminar.org.uk/",
-    color: genColor(),
     parser: "flask",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'imperial.pure.analysis%40gmail.com', 
     label: "Imperial College Analysis Seminar",
     url: "http://www.imperial.ac.uk/a-z-research/mathematical-analysis/pure-analysis-and-pdes/activities/",
-    color: genColor(),
     parser: "gCal",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'gkij4q9m1249c2osijddav6dig%40group.calendar.google.com', 
     label: "KCL Analysis Seminar",
     url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/analysis/events/seminars.aspx",
-    color: genColor(),
     parser: "gCal",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'giu2ael3iq4sd9ucqa2uur7048%40group.calendar.google.com',
     label: "KCL/UCL Geometry Seminar",
     url: "http://www.ucl.ac.uk/geometry/seminars.htm",
-    color: genColor(),
     parser: "gCal",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'https://nameless-cove-7919.herokuapp.com/json/nts',
     label: "Number Theory Seminar",
     url: "http://www.homepages.ucl.ac.uk/~ucahsze/seminars.html",
-    color: genColor(),
     parser: "flask",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'magicseminar%40googlemail.com',
     label: "MAGIC Seminar",
     url: "http://coates.ma.ic.ac.uk/magic/",
-    color: genColor(),
     parser: "gCal",
     enabled: true
   },
   {
-    id: gUUID(),
     account: '84rn4klt27550hfpciblhjb71s%40group.calendar.google.com',
     label: "KCL Disordered System Seminar",
     url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/disorderedsys/seminars.aspx",
-    color: genColor(),
     parser: "gCal",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'fnmlc1qjb290apdf07h02ut59s%40group.calendar.google.com',
     label: "KCL Theoretical Physics Seminar",
     url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/theorphysics/seminars.aspx",
-    color: genColor(),
     parser: "gCal",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'https://nameless-cove-7919.herokuapp.com/json/ic/sas',
     label: "IC Stochastic Analysis Seminar",
     url: "http://www3.imperial.ac.uk/stochasticanalysisgroup/events",
-    color: genColor(),
     parser: "flask",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'https://nameless-cove-7919.herokuapp.com/json/ic/taktic',
     label: "TAKTIC: Topology and Knot Theory at Imperial College",
     url: "http://www3.imperial.ac.uk/geometry/seminars/taktic",
-    color: genColor(),
     parser: "flask",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'https://nameless-cove-7919.herokuapp.com/json/ic/apde',
     label: "IC Applied PDEs Seminars",
     url: "http://www3.imperial.ac.uk/ammp/aboutammp/pdesseminars",
-    color: genColor(),
     parser: "flask",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'https://nameless-cove-7919.herokuapp.com/json/ic/ammp',
     label: "IC Applied Mathematics and Mathematical Physics Seminar",
     url: "http://www3.imperial.ac.uk/ammp/aboutammp/ammpseminar",
-    color: genColor(),
     parser: "flask",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'https://nameless-cove-7919.herokuapp.com/json/ic/fd',
     label: "IC Fluid dynamics group seminar",
     url: "http://www3.imperial.ac.uk/ammpfluiddynamics/seminars",
-    color: genColor(),
     parser: "flask",
     enabled: true
   },
   {
-    id: gUUID(),
     account: 'https://nameless-cove-7919.herokuapp.com/json/ic/ftmp',
     label: "IC fortnightly seminar on topics in Mathematical Physics",
     url: "http://www3.imperial.ac.uk/mathematicalphysics/events",
-    color: genColor(),
+    parser: "flask",
+    enabled: true
+  },
+  {
+    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/ip', 
+    label: "Imperial Probability Centre",
+    url: "http://wwwf.imperial.ac.uk/~amijatov/IP/index.php",
     parser: "flask",
     enabled: true
   }
 ];
 
+// Generate the colors in a "rainbow" fashion
+for (var i=0; i<categories.length; i++) {
+  categories[i].id = gUUID(),
+  categories[i].color = rgbToHex.apply(this, genColor(i, categories.length));
+}
 
 $(document).ready(function() {
 
@@ -204,7 +225,7 @@ $(document).ready(function() {
       entries = root;
     }
 
-    var events = entries.map(getEventWith(category)).filter(isNull);
+    var events = entries.map(getEventWith(category)).filter(isNotNull);
 
     $('#calendar').fullCalendar( 'addEventSource', { events:events, cid: category.id } );
     $('#calendar').fullCalendar( 'refetchEvents' );
@@ -213,7 +234,7 @@ $(document).ready(function() {
     $(spinner).remove();
   }
 
-  function isNull(element) {
+  function isNotNull(element) {
     return element != null;
   }
 
@@ -320,28 +341,63 @@ $(document).ready(function() {
       lightenDarkenColor(category.color, -42),
       '; background-color:',
       category.color,
+      // ';"><input type="checkbox" checked="',
+      // category.enabled
+      // ,'"/> <a style="text-decoration: none; color:', 
       ';"><a style="text-decoration: none; color:', 
       lightenDarkenColor(category.color, -112),
       ';" href="',
       category.url,
       '" target="_blank">',
       category.label,
-      '<div class="spinner"></div></li>\n'
+      addSpinner(category.enabled),
+      '</li>\n'
       ];
     return item.join("");
   }
 
+  function addSpinner(isEnabled) {
+    if (isEnabled) {
+      return '<div class="spinner"></div>'
+    } else {
+      return ''
+    }
+  }
+
   // generate categories legend
   function generateLegend(categories) {
-    var html = ['<ul>'];
-    html = html.concat(categories.map(styleCategory));
-    html.push('</ul>');
+    var legend = ['<h2 id="legendTitle">Colours Legend</h2><ul>'];
+    legend = legend.concat(categories.map(styleCategory));
+    legend.push('</ul>');
 
-    $('#legend').append(html.join(""));
+    $('#legend').html("");
+    $('#legend').html(legend.join(""));
+  }
+
+  function populateCalendar() {
+    //$('#calendar').fullCalendar( 'removeEvents' );
+    generateLegend(categories);
+    categories.filter(entryEnabled).map(getJSON);
+  }
+
+  function entryEnabled(category){
+    return category.enabled;
   }
 
   // execute scraping and elaborations
   // cross fingers and wait a little
-  generateLegend(categories);
-  categories.map(getJSON);
+  populateCalendar();
+
+  // $("ul li input").bind("click", function() {
+  //   var ele = $(this)[0];
+  //   var cid = ele.parentNode.parentNode.id;
+  //   for(var i=0; i<categories.length; i++) {
+  //       if (categories[i].id == cid) {
+  //         categories[i].enabled = ele.checked;
+  //       }
+  //   }
+
+  //   populateCalendar();
+  // });
+
 });
