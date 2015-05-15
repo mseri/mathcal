@@ -73,7 +73,7 @@ function darken(col) {
 
 function genColor(idx, l) {
   //return rgbToHex(getRC(), getRC(), getRC());
-  return hslToRgb(idx*(1.2)/(2*l) + 0.02,0.60,0.8);
+  return hslToRgb(idx*(1.2)/(2*l) + 0.02,0.65,0.83);
 }
 
 // RFC4122 version 4 compliant UUID
