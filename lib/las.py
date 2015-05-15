@@ -18,8 +18,8 @@ def getDateTimeStartEnd(data):
     res = regex.search(times)
 
     if res:
-      startDateTime = parse(date + ' 2015 ' +  tAdjust(res.group(1)) + ' ' + res.group(3))
-      endDateTime = parse(date + ' 2015 ' + tAdjust(res.group(2)) + ' ' + res.group(3))
+      startDateTime = parse(date + ' 2015 ' + tAdjust(res.group(1)) + ' ' + res.group(3))
+      endDateTime   = parse(date + ' 2015 ' + tAdjust(res.group(2)) + ' ' + res.group(3))
 
       return (startDateTime, endDateTime)
   

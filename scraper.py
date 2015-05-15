@@ -3,6 +3,7 @@ from flask import Flask, request
 from lib.las import jsonifyLAS
 from lib.nts import jsonifyNTS
 from lib.imp import jsonifySAS, jsonifyTAKTIC ,jsonifyAPDE, jsonifyAMMP, jsonifyFD, jsonifyFTMP
+from lib.impprob import jsonifyIP 
 
 app = Flask(__name__)
 # app.debug = True
@@ -43,6 +44,9 @@ def FD():
 def FTMP():
     return jsonifyFTMP().cache
 
+@app.route('/json/ic/ip')
+def IP():
+    return jsonifyIP().cache
 
 # try to solve No 'Access-Control-Allow-Origin' error
 # http://mortoray.com/2014/04/09/allowing-unlimited-access-with-cors/
@@ -57,3 +61,6 @@ def add_cors(resp):
     if app.debug:
         resp.headers['Access-Control-Max-Age'] = '1'
     return resp
+
+if __name__ == '__main__':
+    app.run()
