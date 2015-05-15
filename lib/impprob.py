@@ -10,7 +10,7 @@ def getSeminar(row_data):
   description = row_data[2].get_text().strip()
 
   if 'Description' in location:
-    location = 'For additional informations <a href="{}" target="_blank">click here</a>'.format(row_data[0].a['href'])
+    location = 'For additional informations <a href="http://wwwf.imperial.ac.uk/~amijatov/IP/{}" target="_blank">click here</a>'.format(row_data[0].a['href'])
     description += '<br/><p>{}</p>'.format(location)
 
   if 'All day' in timestring:
