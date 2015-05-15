@@ -86,8 +86,10 @@ function gUUID() {
 
 // These will be later loaded from a separate JSON file, 
 // for the moment we manage them by hand here
+var apiUrl = "http://mathcal-mseri.rhcloud.com";
+
 var categories = [{
-    account: 'https://nameless-cove-7919.herokuapp.com/json/las', 
+    account: '/json/las', 
     label: "London Analysis and Probability Seminar",
     url: "http://www.london-analysis-seminar.org.uk/",
     parser: "flask",
@@ -115,7 +117,7 @@ var categories = [{
     enabled: true
   },
   {
-    account: 'https://nameless-cove-7919.herokuapp.com/json/nts',
+    account: '/json/nts',
     label: "Number Theory Seminar",
     url: "http://www.homepages.ucl.ac.uk/~ucahsze/seminars.html",
     parser: "flask",
@@ -143,49 +145,49 @@ var categories = [{
     enabled: true
   },
   {
-    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/sas',
+    account: '/json/ic/sas',
     label: "IC Stochastic Analysis Seminar",
     url: "http://www3.imperial.ac.uk/stochasticanalysisgroup/events",
     parser: "flask",
     enabled: true
   },
   {
-    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/taktic',
+    account: '/json/ic/taktic',
     label: "TAKTIC: Topology and Knot Theory at Imperial College",
     url: "http://www3.imperial.ac.uk/geometry/seminars/taktic",
     parser: "flask",
     enabled: true
   },
   {
-    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/apde',
+    account: '/json/ic/apde',
     label: "IC Applied PDEs Seminars",
     url: "http://www3.imperial.ac.uk/ammp/aboutammp/pdesseminars",
     parser: "flask",
     enabled: true
   },
   {
-    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/ammp',
+    account: '/json/ic/ammp',
     label: "IC Applied Mathematics and Mathematical Physics Seminar",
     url: "http://www3.imperial.ac.uk/ammp/aboutammp/ammpseminar",
     parser: "flask",
     enabled: true
   },
   {
-    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/fd',
+    account: '/json/ic/fd',
     label: "IC Fluid dynamics group seminar",
     url: "http://www3.imperial.ac.uk/ammpfluiddynamics/seminars",
     parser: "flask",
     enabled: true
   },
   {
-    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/ftmp',
+    account: '/json/ic/ftmp',
     label: "IC fortnightly seminar on topics in Mathematical Physics",
     url: "http://www3.imperial.ac.uk/mathematicalphysics/events",
     parser: "flask",
     enabled: true
   },
   {
-    account: 'https://nameless-cove-7919.herokuapp.com/json/ic/ip', 
+    account: '/json/ic/ip', 
     label: "Imperial Probability Centre",
     url: "http://wwwf.imperial.ac.uk/~amijatov/IP/index.php",
     parser: "flask",
@@ -208,7 +210,7 @@ $(document).ready(function() {
     if (category.parser == "gCal") {
       url = 'https://www.google.com/calendar/feeds/' + category.account +'/public/basic?alt=json&hl=en';
     } else {
-      url = category.account;
+      url = apiUrl + category.account;
     }
 
     return $.getJSON(url).done(function(data) {
@@ -260,6 +262,9 @@ $(document).ready(function() {
 
     //Workaround for duplicate London Analysis Seminar from Imperial Analysis calendar
     if (title.slice(0,4) == "LANS") {
+      return null;
+    }
+    if (title.indexOf("London Analysis and Probability Seminar") > -1) {
       return null;
     }
 
