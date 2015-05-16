@@ -86,7 +86,7 @@ function gUUID() {
 
 // These will be later loaded from a separate JSON file, 
 // for the moment we manage them by hand here
-var apiUrl = "http://mathcal-mseri.rhcloud.com";
+var apiUrl = "//mathcal-mseri.rhcloud.com";
 
 var categories = [{
     account: '/json/las', 
