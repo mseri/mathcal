@@ -51,7 +51,7 @@ def getRequest(url):
   return requests.get(url, stream=True)
 
 def makeSoup(fileName):
-  with open(getFilePath(fileName), 'r') as f:
+  with open(getFilePath(fileName), 'r', encoding="utf-8", errors="ignore") as f:
       soup = BeautifulSoup(f,"html5lib")
 
   return soup
