@@ -413,10 +413,8 @@ function seminarClicked(cid) {
         }
     }
     // I am saving redundant data: the complete series of events. 
-    // TODO: Restructure the code and avoid saving the events info.
     localStorage.setItem('seminars', JSON.stringify(seminars));
     populateCalendar();
 }
 // TODO: - remove gmail scraper and add it to the backend
 //       - understand "allDay" events or multiple days ones
-//       - restructure the code and avoid saving the events info. 

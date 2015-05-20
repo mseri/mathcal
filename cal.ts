@@ -99,7 +99,8 @@ var apiUrl = "//mathcal-mseri.rhcloud.com";
 
 // Id, color and enabled are optional only because we want to
 // generate them dynamically at runtime.
-// TODO: automatically generate the structure from a JSON or YAML file.
+// TODO: - automatically generate the structure from a JSON or YAML file.
+//       - Do classes with auto id/color generation make more sense here?
 interface ISeminarData {
   id?: string;
   color?: string;
@@ -222,7 +223,7 @@ var lastIndexUpdate = new Date("Wed May 19 2015 00:41:57 GMT+0100 (BST)");
 var lastLocalUpdate = JSON.parse(localStorage.getItem('lastUpdate'));
 
 var seminars: ISeminarData[];
-var events = {};
+var events: { [id: string]: Event; } = {};
 
 if (!localStorage.getItem('seminars') || lastLocalUpdate < lastIndexUpdate) {
   // Add the Id and enable all seminars.
@@ -232,7 +233,7 @@ if (!localStorage.getItem('seminars') || lastLocalUpdate < lastIndexUpdate) {
     seminars_[i].color = genColor(i, seminars_.length);
     seminars_[i].enabled = true;
   }
-  
+
   seminars = seminars_;
   localStorage.setItem('seminars', JSON.stringify(seminars));
   localStorage.setItem('lastUpdate', JSON.stringify(new Date()));
@@ -435,7 +436,7 @@ function addCheckbox(seminarData: ISeminarData): string {
     checked = 'checked';
   }
   else {
-    checked = '';    
+    checked = '';
   }
   return '<input type="checkbox" ' + checked + ' onclick="seminarClicked(\'' + seminarData.id + '\')"/>';
 }
@@ -454,7 +455,7 @@ function generateLegend(seminars: ISeminarData[]) {
 
 // Gets the data and populates the calendar
 function populateCalendar() {
-  $('#calendar').fullCalendar( 'removeEvents' );
+  $('#calendar').fullCalendar('removeEvents');
   seminars.filter(entryEnabled).map(getJSON);
 }
 
@@ -471,7 +472,7 @@ function seminarClicked(cid: string) {
   // This block is hacked up, the "any" allows us to turn off (in some sense)
   // typescript type check of this function.
   // TODO: refactor the code to avoid this hack
-  var checkbox = <HTMLInputElement>$("#" + cid +" input")[0];
+  var checkbox = <HTMLInputElement>$("#" + cid + " input")[0];
   for (var i = 0; i < seminars.length; i++) {
     if (seminars[i].id == cid) {
       seminars[i].enabled = !seminars[i].enabled;
@@ -488,12 +489,10 @@ function seminarClicked(cid: string) {
     }
   }
   // I am saving redundant data: the complete series of events. 
-  // TODO: Restructure the code and avoid saving the events info.
   localStorage.setItem('seminars', JSON.stringify(seminars));
-  
+
   populateCalendar();
 }
 
 // TODO: - remove gmail scraper and add it to the backend
 //       - understand "allDay" events or multiple days ones
-//       - restructure the code and avoid saving the events info.
