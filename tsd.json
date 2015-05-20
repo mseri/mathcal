@@ -1,0 +1,15 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "jquery/jquery.d.ts": {
+      "commit": "2259de6588fb6627c3e511bcf40a0e85cadefbc5"
+    },
+    "fullCalendar/fullCalendar.d.ts": {
+      "commit": "2259de6588fb6627c3e511bcf40a0e85cadefbc5"
+    }
+  }
+}
