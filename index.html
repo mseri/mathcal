@@ -84,10 +84,11 @@
     }
 
     #legend {
-      margin-top: 20px;
-      border-bottom: 1px solid gray;
-      border-top: 1px solid gray;
+      float: left;
       width: 60%;
+      margin-top: 20px;
+      /*border-bottom: 1px solid gray;*/
+      border-top: 1px solid gray;
     }
 
     #legend h2 {
@@ -111,19 +112,19 @@
       margin-right: 6px;
     }
 
-    #description div {
+    #description {
       float: right;
-      display: inline-block;
       width: 36%;
-      border: 1px solid lightgray;
-      padding: 10px;
-      padding-top: 2px;
       margin-top: 20px;
+      /*border: 1px solid lightgray;*/
+      border-top: 1px solid gray;
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
     #description h2 {
       margin-top: 0;
-      padding-top: 0px;
+      padding-top: 5px;
     }
     
     .spinner {
@@ -174,6 +175,7 @@
     </div>
 
     <div id="description">
+      <h2>Description</h2>
       <p>This calendar diplays few (for the moment) mathematical event in London. <br/>
       For additional informations, click on the events in the calendar or on the labels in the legend.</p>
       <p>At the moment it remembers your preferences (using html5 "localStorage") but the persistence of this information cannot be guaranteed and depends on your browser configuration.</p>
