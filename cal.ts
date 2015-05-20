@@ -234,6 +234,10 @@ var seminars_: ISeminarData[] = [{
 var lastIndexUpdate = new Date("Wed May 20 2015 18:25:57 GMT+0100 (BST)");
 var lastLocalUpdate = JSON.parse(localStorage.getItem('lastUpdate'));
 
+if (!(lastLocalUpdate instanceof Date)) {
+  lastLocalUpdate = new Date(lastLocalUpdate);
+}
+
 var seminars: ISeminarData[];
 var events: { [id: string]: Event; } = {};
 
