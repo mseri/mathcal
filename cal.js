@@ -188,7 +188,7 @@ var seminars_ = [{
     }
 ];
 // Modified when we add new seminars
-var lastIndexUpdate = new Date("Wed May 19 2015 00:41:57 GMT+0100 (BST)");
+var lastIndexUpdate = new Date("Wed May 20 2015 18:25:57 GMT+0100 (BST)");
 var lastLocalUpdate = JSON.parse(localStorage.getItem('lastUpdate'));
 var seminars;
 var events = {};
