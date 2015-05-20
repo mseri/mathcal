@@ -179,6 +179,7 @@ var seminars_ = [{
 var lastIndexUpdate = new Date("Wed May 19 2015 00:41:57 GMT+0100 (BST)");
 var lastLocalUpdate = JSON.parse(localStorage.getItem('lastUpdate'));
 var seminars;
+var events = {};
 if (!localStorage.getItem('seminars') || lastLocalUpdate < lastIndexUpdate) {
     // Add the Id and enable all seminars.
     // Generate the colors in a "rainbow" fashion.
@@ -226,14 +227,10 @@ function listEvents(root, seminarData) {
     }
     // We elaborates the events (seminars) one by one and throw away anything that
     // is not parsed correctly.
-    var events;
-    if (!seminarData.events) {
-        events = entries.map(getEventFrom(seminarData)).filter(isNotNull);
+    if (!(seminarData.id in events)) {
+        events[seminarData.id] = entries.map(getEventFrom(seminarData)).filter(isNotNull);
     }
-    else {
-        events = seminarData.events;
-    }
-    $('#calendar').fullCalendar('addEventSource', { events: events, cid: seminarData.id });
+    $('#calendar').fullCalendar('addEventSource', { events: events[seminarData.id], cid: seminarData.id });
     $('#calendar').fullCalendar('refetchEvents');
     // After populating the calendar, remove the appropriate loading spinner.
     var spinner = "#" + seminarData.id + " .spinner";
@@ -391,12 +388,6 @@ function entryEnabled(seminarData) {
     return seminarData.enabled;
 }
 $(document).ready(function () {
-    // Clear seminars cache if present
-    for (var i = 0; i < seminars.length; i++) {
-        if (seminars[i].events) {
-            seminars[i].events = null;
-        }
-    }
     generateLegend(seminars);
     populateCalendar();
 });
