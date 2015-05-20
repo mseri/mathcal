@@ -116,6 +116,21 @@
     #legend input {
       margin-right: 6px;
     }
+
+    #description div {
+      float: right;
+      display: inline-block;
+      width: 36%;
+      border: 1px solid lightgray;
+      padding: 10px;
+      padding-top: 2px;
+      margin-top: 20px;
+    }
+
+    #description h2 {
+      margin-top: 0;
+      padding-top: 0px;
+    }
     
     .spinner {
       height:10px;
@@ -164,14 +179,6 @@
     <div id="legend">
     </div>
 
-    <div id="eventContent" title="Event Details" style="display:none;">
-      <h3 id="eventTitle"></h3>
-      <h5 id="eventStart"></h5>
-      <h6 id="eventLocation"></h6>
-      <div id="eventInfo"></div>
-      <!--<p><strong><a id="eventLink" target="_blank">Read More</a></strong></p> -->
-    </div>
-
     <div id="description">
       <p>This calendar diplays few (for the moment) mathematical event in London. <br/>
       For additional informations, click on the events in the calendar or on the labels in the legend.</p>
@@ -179,6 +186,14 @@
       <p>If you would like to list your seminars, please send an email to <strong>m(dot)seri(at)ucl(dot)ac(dot)uk</strong>.</p>
       <p>In case your seminars are not hosted on Google Calendar, please consider writing a python scraper to add to the backend system. 
       The source code can be found on <a href="https://github.com/mseri/mathcal" target="_blank">GitHub</a>. The calendar is completely free and opensource, any contribution is welcome.</p>
+    </div>
+
+    <div id="eventContent" title="Event Details" style="display:none;">
+      <h3 id="eventTitle"></h3>
+      <h5 id="eventStart"></h5>
+      <h6 id="eventLocation"></h6>
+      <div id="eventInfo"></div>
+      <!--<p><strong><a id="eventLink" target="_blank">Read More</a></strong></p> -->
     </div>
   </div>
   <script>
