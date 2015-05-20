@@ -4,13 +4,14 @@ from lib.las import jsonifyLAS
 from lib.nts import jsonifyNTS
 from lib.imp import jsonifySAS, jsonifyTAKTIC ,jsonifyAPDE, jsonifyAMMP, jsonifyFD, jsonifyFTMP
 from lib.impprob import jsonifyIP
+from lib.impgeom import jsonifyIPGAS, jsonifyIPLTGS
 
 app = Flask(__name__)
-# app.debug = True
+#app.debug = True
 
-# @app.route('/')
-# def root():
-#   return 'There's nothing here for you!
+@app.route('/')
+def root():
+  return "The service is active! For the calendar visit <a href='http://www.mseri.me/mathcal'>www.mseri.me/mathcal</a>"
 
 @app.route('/json/las')
 def LAS():
@@ -47,6 +48,15 @@ def FTMP():
 @app.route('/json/ic/ip')
 def IP():
     return jsonifyIP().cache
+
+@app.route('/json/ic/ipgas')
+def IPGAS():
+    return jsonifyIPGAS().cache
+
+@app.route('/json/ic/ipltgs')
+def IPLTGS():
+    return jsonifyIPLTGS().cache
+
 
 # try to solve No 'Access-Control-Allow-Origin' error
 # http://mortoray.com/2014/04/09/allowing-unlimited-access-with-cors/
