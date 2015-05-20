@@ -133,6 +133,18 @@ var seminars_ = [{
         parser: "flask"
     },
     {
+        account: '/json/ic/ipgas',
+        label: "Imperial College Geometry and Analysis Seminar",
+        url: "http://geometry.ma.ic.ac.uk/gaseminar/",
+        parser: "flask"
+    },
+    {
+        account: '/json/ic/ipltgs',
+        label: "The London Topology and Geometry Seminar",
+        url: "http://geometry.ma.ic.ac.uk/seminar/",
+        parser: "flask"
+    },
+    {
         account: '84rn4klt27550hfpciblhjb71s%40group.calendar.google.com',
         label: "KCL Disordered System Seminar",
         url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/disorderedsys/seminars.aspx",
