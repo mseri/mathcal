@@ -58,6 +58,9 @@ def IPGAS():
 def IPLTGS():
     return jsonifyIPLTGS().cache
 
+@app.route('/json/gcal/<gcal_id>')
+def GCAL(gcal_id):
+    return jsonifyGCAL(gcal_id).cache
 
 # try to solve No 'Access-Control-Allow-Origin' error
 # http://mortoray.com/2014/04/09/allowing-unlimited-access-with-cors/

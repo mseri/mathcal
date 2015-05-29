@@ -80,7 +80,7 @@ def epochDate(date):
 
 class CachedResult():
   def __init__(self):
-    self.cache = ""
+    self.cache = json.dumps([])
     self.lastUpdate = epochDate(datetime(1970,1,1))
 
   def update(self, cache):

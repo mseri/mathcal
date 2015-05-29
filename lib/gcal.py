@@ -37,7 +37,6 @@ def getSeminar(raw_seminar):
   # get (\d\d?)([ap]m) and make into $1:00 $2
   start_ = re.sub(r"([ap]m)", r" \1", ww_data[0])
   start_ = re.sub(r" (\d\d?) ", r" \1:00 ", start_)
-  start_ = re.sub(r"§GMT§", "", start_)
 
   # Add the day in front of the stop time string
   # and fix the time
@@ -53,8 +52,6 @@ def getSeminar(raw_seminar):
     description = re.sub(r"§", '<br />', desc_match.groups()[0])
   else:
     description = ''
-  
-  print(stop_)
 
   start = parse(start_)
   end = parse(stop_)
@@ -80,11 +77,15 @@ def getEventList(jdata):
 
 
 cache = {}
-#IC fortnightly seminar on topics in Mathematical Physics
+
+#Google Calendar
 def jsonifyGCAL(gcal_id):
+  url = "https://www.google.com/calendar/feeds/{}/public/basic?alt=json&hl=en".format(gcal_id)
+  
+  if requests.head(url).status_code == requests.codes.NOT_FOUND:
+    return CachedResult()
+
   if not gcal_id in cache:
     cache[gcal_id] = CachedResult()
-
-  url = "https://www.google.com/calendar/feeds/{}/public/basic?alt=json&hl=en".format(gcal_id)
 
   return jsonifySeminars(url, getEventList, cache[gcal_id], jsonData = True)
