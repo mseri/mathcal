@@ -187,6 +187,10 @@ var seminars_ = [{
         parser: "flask"
     }
 ];
+// interface AddThisEvent {
+//   refresh():any;
+// }
+// declare var addthisevent: AddThisEvent;
 // Modified when we add new seminars
 var lastIndexUpdate = new Date("Wed May 20 2015 18:25:57 GMT+0100 (BST)");
 var lastLocalUpdate = JSON.parse(localStorage.getItem('lastUpdate'));
@@ -243,7 +247,7 @@ function listEvents(root, seminarData) {
     // We elaborates the events (seminars) one by one and throw away anything that
     // is not parsed correctly.
     if (!(seminarData.id in events)) {
-        events[seminarData.id] = entries.map(getEventFrom(seminarData)).filter(isNotNull);
+        events[seminarData.id] = entries.map(getEventFrom(seminarData)).filter(isNotNull).map(appendCalendarButton);
     }
     $('#calendar').fullCalendar('addEventSource', { events: events[seminarData.id], cid: seminarData.id });
     $('#calendar').fullCalendar('refetchEvents');
@@ -325,6 +329,12 @@ function getGCalEvent(entry, seminarData) {
     }
     return null;
 }
+// Adds the necessary html to show the button "addToCalendar" 
+// at the bottom of the event description
+function appendCalendarButton(entry) {
+    entry.content += addCalBtn(entry);
+    return entry;
+}
 // Build the event out of our nice flask-scraped-and-generated json.
 // Just a remapping...
 function getFlaskEvent(entry, seminarData) {
@@ -373,6 +383,38 @@ function addSpinner(isEnabled) {
     else {
         return '';
     }
+}
+// Takes a number num and left-pad it with at most size zeroes
+function pad(num, size) {
+    var s = num + "";
+    while (s.length < size)
+        s = "0" + s;
+    return s;
+}
+// Takes a date object and returns a string of the form
+// MM/DD/YYYY HH:MM
+function formatDate(date) {
+    return pad(date.getUTCDate(), 2) +
+        '/' + pad(date.getUTCMonth() + 1, 2) +
+        '/' + date.getUTCFullYear() +
+        ' ' + pad(date.getUTCHours(), 2) +
+        ':' + pad(date.getUTCMinutes(), 2);
+}
+// Standard format to use https://addthisevent.com/button/ api.
+// This may change in the future.
+function addCalBtn(seminar) {
+    var sStart = formatDate(seminar.start);
+    var sEnd = formatDate(seminar.end);
+    return '<br/><br/><div title="Add to Calendar" class="addthisevent" data-role="none" rel="external">' +
+        'Add to Calendar' +
+        '<span class="start">' + sStart + '</span>' +
+        '<span class="end">' + sEnd + '</span>' +
+        '<span class="timezone">Europe/London</span>' +
+        '<span class="title">' + seminar.title + '</span>' +
+        '<span class="description">' + seminar.content + '</span>' +
+        '<span class="location">' + seminar.where + '</span>' +
+        '<span class="date_format">DD/MM/YYYY</span>' +
+        '</div>';
 }
 function addCheckbox(seminarData) {
     var checked;
