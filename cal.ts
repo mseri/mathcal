@@ -107,7 +107,6 @@ interface ISeminarData {
   account: string;
   label: string;
   url: string;
-  parser: string;
   enabled?: boolean;
 }
 
@@ -125,107 +124,91 @@ interface Event {
   allDay: boolean;
 }
 
-var seminars_: ISeminarData[] = [{
-  account: '/json/las',
-  label: "London Analysis and Probability Seminar",
-  url: "http://www.london-analysis-seminar.org.uk/",
-  parser: "flask"
-},
+var seminars_: ISeminarData[] = [
   {
-    account: 'imperial.pure.analysis%40gmail.com',
-    label: "Imperial College Analysis Seminar",
-    url: "http://www.imperial.ac.uk/a-z-research/mathematical-analysis/pure-analysis-and-pdes/activities/",
-    parser: "gCal"
+    account: '/json/las',
+    label: "London Analysis and Probability Seminar",
+    url: "http://www.london-analysis-seminar.org.uk/"
   },
   {
-    account: 'gkij4q9m1249c2osijddav6dig%40group.calendar.google.com',
+    account: '/json/gcal/imperial.pure.analysis%40gmail.com',
+    label: "Imperial College Analysis Seminar",
+    url: "http://www.imperial.ac.uk/a-z-research/mathematical-analysis/pure-analysis-and-pdes/activities/"  
+   },
+  {
+    account: '/json/gcal/gkij4q9m1249c2osijddav6dig%40group.calendar.google.com',
     label: "KCL Analysis Seminar",
-    url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/analysis/events/seminars.aspx",
-    parser: "gCal"
+    url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/analysis/events/seminars.aspx"  
   },
   {
     account: '/json/ic/ip',
     label: "Imperial Probability Centre",
-    url: "http://wwwf.imperial.ac.uk/~amijatov/IP/index.php",
-    parser: "flask"
+    url: "http://wwwf.imperial.ac.uk/~amijatov/IP/index.php"
   },
   {
     account: '/json/nts',
     label: "Number Theory Seminar",
-    url: "http://www.homepages.ucl.ac.uk/~ucahsze/seminars.html",
-    parser: "flask"
+    url: "http://www.homepages.ucl.ac.uk/~ucahsze/seminars.html"
   },
   {
-    account: 'giu2ael3iq4sd9ucqa2uur7048%40group.calendar.google.com',
+    account: '/json/gcal/giu2ael3iq4sd9ucqa2uur7048%40group.calendar.google.com',
     label: "KCL/UCL Geometry Seminar",
-    url: "http://www.ucl.ac.uk/geometry/seminars.htm",
-    parser: "gCal"
+    url: "http://www.ucl.ac.uk/geometry/seminars.htm"
   },
   {
-    account: 'magicseminar%40googlemail.com',
+    account: '/json/gcal/magicseminar%40googlemail.com',
     label: "MAGIC Seminar",
-    url: "http://coates.ma.ic.ac.uk/magic/",
-    parser: "gCal"
+    url: "http://coates.ma.ic.ac.uk/magic/"
   },
   {
     account: '/json/ic/taktic',
     label: "TAKTIC: Topology and Knot Theory at Imperial College",
-    url: "http://www3.imperial.ac.uk/geometry/seminars/taktic",
-    parser: "flask"
+    url: "http://www3.imperial.ac.uk/geometry/seminars/taktic"
   },
   {
     account: '/json/ic/ipgas',
     label: "Imperial College Geometry and Analysis Seminar",
-    url: "http://geometry.ma.ic.ac.uk/gaseminar/",
-    parser: "flask"
+    url: "http://geometry.ma.ic.ac.uk/gaseminar/"
   },
   {
     account: '/json/ic/ipltgs',
     label: "The London Topology and Geometry Seminar",
-    url: "http://geometry.ma.ic.ac.uk/seminar/",
-    parser: "flask"
+    url: "http://geometry.ma.ic.ac.uk/seminar/"
   },
   {
-    account: '84rn4klt27550hfpciblhjb71s%40group.calendar.google.com',
+    account: '/json/gcal/84rn4klt27550hfpciblhjb71s%40group.calendar.google.com',
     label: "KCL Disordered System Seminar",
-    url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/disorderedsys/seminars.aspx",
-    parser: "gCal"
+    url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/disorderedsys/seminars.aspx"
   },
   {
-    account: 'fnmlc1qjb290apdf07h02ut59s%40group.calendar.google.com',
+    account: '/json/gcal/fnmlc1qjb290apdf07h02ut59s%40group.calendar.google.com',
     label: "KCL Theoretical Physics Seminar",
-    url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/theorphysics/seminars.aspx",
-    parser: "gCal"
+    url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/theorphysics/seminars.aspx"
   },
   {
     account: '/json/ic/sas',
     label: "IC Stochastic Analysis Seminar",
-    url: "http://www3.imperial.ac.uk/stochasticanalysisgroup/events",
-    parser: "flask"
+    url: "http://www3.imperial.ac.uk/stochasticanalysisgroup/events"
   },
   {
     account: '/json/ic/apde',
     label: "IC Applied PDEs Seminars",
-    url: "http://www3.imperial.ac.uk/ammp/aboutammp/pdesseminars",
-    parser: "flask"
+    url: "http://www3.imperial.ac.uk/ammp/aboutammp/pdesseminars"
   },
   {
     account: '/json/ic/ammp',
     label: "IC Applied Mathematics and Mathematical Physics Seminar",
-    url: "http://www3.imperial.ac.uk/ammp/aboutammp/ammpseminar",
-    parser: "flask"
+    url: "http://www3.imperial.ac.uk/ammp/aboutammp/ammpseminar"
   },
   {
     account: '/json/ic/fd',
     label: "IC Fluid dynamics group seminar",
-    url: "http://www3.imperial.ac.uk/ammpfluiddynamics/seminars",
-    parser: "flask"
+    url: "http://www3.imperial.ac.uk/ammpfluiddynamics/seminars"
   },
   {
     account: '/json/ic/ftmp',
     label: "IC fortnightly seminar on topics in Mathematical Physics",
-    url: "http://www3.imperial.ac.uk/mathematicalphysics/events",
-    parser: "flask"
+    url: "http://www3.imperial.ac.uk/mathematicalphysics/events"  
   }
 ];
 
@@ -235,7 +218,7 @@ var seminars_: ISeminarData[] = [{
 // declare var addthisevent: AddThisEvent;
 
 // Modified when we add new seminars
-var lastIndexUpdate = new Date("Wed May 20 2015 18:25:57 GMT+0100 (BST)");
+var lastIndexUpdate = new Date("Fri May 29 2015 19:24:57 GMT+0100 (BST)");
 var lastLocalUpdate = JSON.parse(localStorage.getItem('lastUpdate'));
 
 if (!(lastLocalUpdate instanceof Date)) {
@@ -270,12 +253,7 @@ if (!localStorage.getItem('seminars') || lastLocalUpdate < lastIndexUpdate) {
 // Get basic JSON feed from Google Calendar or our Flask App
 // TODO: understand type of the jquery promise.
 function getJSON(seminarData: ISeminarData): JQueryPromise<any> {
-  var url: string;
-  if (seminarData.parser == "gCal") {
-    url = 'https://www.google.com/calendar/feeds/' + seminarData.account + '/public/basic?alt=json&hl=en';
-  } else {
-    url = apiUrl + seminarData.account;
-  }
+  var url = apiUrl + seminarData.account;
 
   return $.getJSON(url).done(function(data) {
     listEvents(data, seminarData);
@@ -283,21 +261,12 @@ function getJSON(seminarData: ISeminarData): JQueryPromise<any> {
 }
 
 function listEvents(root, seminarData: ISeminarData) {
-  var entries;
-  
-  // Google calendar has a slightly different JSON structure;
-  // we need to deal with it separately
-  if (seminarData.parser == "gCal") {
-    var feed = root.feed;
-    entries = feed.entry || [];
-  } else {
-    entries = root;
-  }
+  var entries = root;
   
   // We elaborates the events (seminars) one by one and throw away anything that
   // is not parsed correctly.
   if (!(seminarData.id in events)) {
-    events[seminarData.id] = entries.map(getEventFrom(seminarData)).filter(isNotNull).map(appendCalendarButton);
+      events[seminarData.id] = entries.map(function(evt) { return getEvent(evt, seminarData); }).filter(isNotNull).map(appendCalendarButton);
   }
   
   $('#calendar').fullCalendar('addEventSource', { events: events[seminarData.id], cid: seminarData.id });
@@ -312,93 +281,6 @@ function isNotNull(element): boolean {
   return element != null;
 }
 
-// Generate getEvent function to elaborate the entries from the
-// JSON feeds.
-function getEventFrom(seminarData: ISeminarData) {
-  return function getEvent(entry) {
-    if (seminarData.parser == "gCal") {
-      return getGCalEvent(entry, seminarData);
-    } else {
-      return getFlaskEvent(entry, seminarData);
-    }
-  };
-}
-
-// Build the events out of Google calendar's feed entries.
-// We use horrible hacked regex parsing of the content to extract and 
-// re-elaborate the data. Trust me, it's not nice to read!
-function getGCalEvent(entry, seminarData: ISeminarData) {
-  // This is the easy bit, just get title and content.
-  var title = (entry.title.type == 'html') ? entry.title.$t : encodeURI(entry.title.$t);
-
-  // Workaround for duplicate London Analysis Seminar 
-  // from Imperial Analysis calendar
-  if (title.slice(0, 4) == "LANS") {
-    return null;
-  }
-  if (title.indexOf("London Analysis and Probability Seminar") > -1) {
-    return null;
-  }
-
-  var content = (entry.content.type == 'html') ? entry.content.$t : encodeURI(entry.content.$t);
-
-  // Get When and Where from the formatted content in the google calendar string
-  // Takes a string of the form
-  //
-  // When: Thu Feb 19, 2015 3pm to 4pm \nGMT\u003cbr /\u003e\n\n\u003cbr /\u003eWhere: room S423\n\u003cbr /\u003eEvent Status: confirmed\n\u003cbr /\u003eEvent Description: some description
-  // 
-  // strips it and then scrapes from it date, time, location and description.
-  var strippedContent = content.replace(/(<br \/>|\n)/g, '§');
-  var wAndWRegex = /When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to (.*\d+:?\d*[ap]m).*Where: ([^§]*)§+.*/;
-  var whenAndWhere_ = wAndWRegex.exec(strippedContent);
-
-  var descRegex = /.*Event Description: (.*)/;
-  var description_ = descRegex.exec(strippedContent);
-
-  // whenAndWhere infos are essential. 
-  // If something went wrong with them we are not going to process the event.
-  if (whenAndWhere_) {
-    // Get rid of strippedContent, the original string, 
-    // contained at the beginning of the array.
-    var whenAndWhere = whenAndWhere_.splice(1);
-
-    // Fix start and stop datetime format:
-    // get (\d\d?)([ap]m) and make into $1:00 $2
-    var start = new Date(
-      whenAndWhere[0].replace(/([ap]m)/, " $1").replace(/ (\d\d?) /, " $1:00 ")
-      );
-
-    // Add day in front of stop string and fix the time.
-    // FIXME: I am assuming start/stop in the same day.
-    var stop = new Date(
-      whenAndWhere[0].replace(/\d\d?:?\d?\d?\s?[ap]m/, whenAndWhere[1]).replace(/([ap]m)/, " $1").replace(/ (\d\d?) /, " $1:00 ")
-      );
-
-    var where = whenAndWhere[2];
-
-    var description = "";
-    if (description_) {
-      description = description_[1].replace(/§/g, '<br />');
-    }
-
-    return {
-      title: title,
-      start: start,
-      end: stop,
-      where: where,
-      content: description,
-      category: seminarData.label,
-      categoryUrl: seminarData.url,
-      backgroundColor: seminarData.color,
-      borderColor: lightenDarkenColor(seminarData.color, -42),
-      textColor: lightenDarkenColor(seminarData.color, -112),
-      allDay: false
-    };
-  }
-
-  return null;
-}
-
 // Adds the necessary html to show the button "addToCalendar" 
 // at the bottom of the event description
 function appendCalendarButton(entry: Event): Event {
@@ -408,7 +290,7 @@ function appendCalendarButton(entry: Event): Event {
 
 // Build the event out of our nice flask-scraped-and-generated json.
 // Just a remapping...
-function getFlaskEvent(entry, seminarData: ISeminarData) {
+function getEvent(entry, seminarData: ISeminarData) {
   return {
     title: entry.title,
     start: new Date(entry.start),
@@ -555,5 +437,4 @@ function seminarClicked(cid: string) {
   populateCalendar();
 }
 
-// TODO: - remove gmail scraper and add it to the backend
-//       - understand "allDay" events or multiple days ones
+// TODO: - understand "allDay" events or multiple days ones
