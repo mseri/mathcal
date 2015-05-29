@@ -5,6 +5,7 @@ from lib.nts import jsonifyNTS
 from lib.imp import jsonifySAS, jsonifyTAKTIC ,jsonifyAPDE, jsonifyAMMP, jsonifyFD, jsonifyFTMP
 from lib.impprob import jsonifyIP
 from lib.impgeom import jsonifyIPGAS, jsonifyIPLTGS
+from lib.gcal import jsonifyGCAL
 
 app = Flask(__name__)
 #app.debug = True
@@ -74,3 +75,6 @@ def add_cors(resp):
 
 if __name__ == '__main__':
     app.run()
+
+
+# This app really needs to be refactored, it's fairly easy but I have no time for it at the moment

@@ -56,6 +56,13 @@ def makeSoup(fileName):
 
   return soup
 
+def makeJSON(fileName):
+  with open(getFilePath(fileName), 'r', encoding="utf-8", errors="ignore") as f:
+    content = f.read()
+    data = json.loads(content)
+
+  return data
+
 #########################################################
 # if the time has only one/two digit adds 'zero minutes'
 # otherwise it simply replace the "." separating hours and minutes
@@ -94,18 +101,21 @@ def jsonDateTimeHandler(obj):
 
 #########################################################
 # generate JSONFrom the list of dictionaries
-def jsonifySeminars(url, getEventList, cached, cacheStillCurrent=None):
+def jsonifySeminars(url, getEventList, cached, cacheStillCurrent=None, jsonData=False):
   tag = str(crc32(url.encode("utf-8")))
   fileName = tag + '.html'
 
   if saveReqToFile(getRequest(url), fileName, cached):
     print("JSONification of " + tag)
-    soup = makeSoup(fileName)
+    if jsonData:
+      data = makeJSON(fileName)
+    else:
+      data = makeSoup(fileName)
 
-    if cacheStillCurrent and cacheStillCurrent(soup, cached):
+    if cacheStillCurrent and cacheStillCurrent(data, cached):
       return cached
       
-    eventList = getEventList(soup)
+    eventList = getEventList(data)
     cached.update(json.dumps(list(eventList), default=jsonDateTimeHandler))
 
   return cached

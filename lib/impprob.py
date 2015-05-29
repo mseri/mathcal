@@ -43,6 +43,6 @@ def jsonifyIP(cache = CachedResult()):
   return jsonifySeminars("http://wwwf.imperial.ac.uk/~amijatov/IP/index.php", getEventList, cache)
 
 
-#########################################################
-if __name__ == "__main__":
-  print(jsonifyNTS().cache)
+# #########################################################
+# if __name__ == "__main__":
+#   print(jsonifyIP().cache)

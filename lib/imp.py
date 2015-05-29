@@ -64,6 +64,6 @@ def jsonifyFTMP(cache = CachedResult()):
   return jsonifySeminars("http://www3.imperial.ac.uk/imperialnewsevents/eventsfront?pid=5751_177356114_5751_177356049_177356049", getEventList, cache, cacheStillCurrent)
 
 
-#########################################################
-if __name__ == "__main__":
-  print(jsonifyNTS().cache)
+# #########################################################
+# if __name__ == "__main__":
+#   print(jsonifySAS().cache)

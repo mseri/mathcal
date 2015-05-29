@@ -81,7 +81,7 @@ def jsonifyIPGAS(cache = CachedResult()):
 def jsonifyIPLTGS(cache = CachedResult()):
   return jsonifySeminars("http://geometry.ma.ic.ac.uk/seminar/", getEventListLTGS, cache)
 
-#########################################################
-if __name__ == "__main__":
-  print(jsonifyIPGAS().cache)
-  print(jsonifyIPLTGS().cache)
+# #########################################################
+# if __name__ == "__main__":
+#   print(jsonifyIPGAS().cache)
+#   print(jsonifyIPLTGS().cache)
