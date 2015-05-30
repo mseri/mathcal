@@ -352,8 +352,8 @@ function formatDate(date: Date): string {
 // Standard format to use https://addthisevent.com/button/ api.
 // This may change in the future.
 function addCalBtn(seminar): string {
-  var sStart = formatDate(seminar.start);
-  var sEnd = formatDate(seminar.end);
+  var sStart = formatDate(new Date(seminar.start));
+  var sEnd = formatDate(new Date(seminar.end));
   return '<br/><br/><div title="Add to Calendar" class="addthisevent" data-role="none" rel="external">' +
     'Add to Calendar' +
     '<span class="start">' + sStart + '</span>' +

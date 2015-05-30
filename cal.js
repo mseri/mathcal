@@ -216,7 +216,7 @@ function listEvents(root, seminarData) {
     // We elaborates the events (seminars) one by one and throw away anything that
     // is not parsed correctly.
     if (!(seminarData.id in events)) {
-        events[seminarData.id] = entries.map(function (evt) { return getEvent(evt, seminarData); }).filter(isNotNull).map(appendCalendarButton);
+        events[seminarData.id] = entries.map(function (evt) { return getEvent(evt, seminarData); }).filter(isNotNull);
     }
     $('#calendar').fullCalendar('addEventSource', { events: events[seminarData.id], cid: seminarData.id });
     $('#calendar').fullCalendar('refetchEvents');
@@ -227,12 +227,6 @@ function listEvents(root, seminarData) {
 function isNotNull(element) {
     return element != null;
 }
-// Adds the necessary html to show the button "addToCalendar" 
-// at the bottom of the event description
-function appendCalendarButton(entry) {
-    entry.content += addCalBtn(entry);
-    return entry;
-}
 // Build the event out of our nice flask-scraped-and-generated json.
 // Just a remapping...
 function getEvent(entry, seminarData) {
@@ -241,7 +235,7 @@ function getEvent(entry, seminarData) {
         start: new Date(entry.start),
         end: new Date(entry.end),
         where: entry.location,
-        content: entry.description,
+        content: entry.description += addCalBtn(entry),
         category: seminarData.label,
         categoryUrl: seminarData.url,
         backgroundColor: seminarData.color,
@@ -301,16 +295,16 @@ function formatDate(date) {
 // Standard format to use https://addthisevent.com/button/ api.
 // This may change in the future.
 function addCalBtn(seminar) {
-    var sStart = formatDate(seminar.start);
-    var sEnd = formatDate(seminar.end);
+    var sStart = formatDate(new Date(seminar.start));
+    var sEnd = formatDate(new Date(seminar.end));
     return '<br/><br/><div title="Add to Calendar" class="addthisevent" data-role="none" rel="external">' +
         'Add to Calendar' +
         '<span class="start">' + sStart + '</span>' +
         '<span class="end">' + sEnd + '</span>' +
         '<span class="timezone">Europe/London</span>' +
         '<span class="title">' + seminar.title + '</span>' +
-        '<span class="description">' + seminar.content + '</span>' +
-        '<span class="location">' + seminar.where + '</span>' +
+        '<span class="description">' + seminar.description + '</span>' +
+        '<span class="location">' + seminar.location + '</span>' +
         '<span class="date_format">DD/MM/YYYY</span>' +
         '</div>';
 }
