@@ -289,7 +289,7 @@ function getEvent(entry, seminarData: ISeminarData) {
     start: new Date(entry.start),
     end: new Date(entry.end),
     where: entry.location,
-    content: entry.description += addCalBtn(entry),
+    content: entry.description + addCalBtn(entry),
     category: seminarData.label,
     categoryUrl: seminarData.url,
     backgroundColor: seminarData.color,
