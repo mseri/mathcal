@@ -35,9 +35,10 @@ def generateDescription(acc, content):
         if url[-4:] == 'html':
           abstractPage = requests.get(url)
           soup = BeautifulSoup(abstractPage.content.replace(b"<br>",b"").replace(b"<br/>",b""))
-          abstract = next(el for el in soup.body.contents if  type(el) == NavigableString and el.strip()[:8] == "Abstract")
+          abstract = next(el for el in soup.body.contents 
+                          if type(el) == NavigableString and el.strip()[:8] == "Abstract")
           acc['abstract'] = abstract.strip()
-      except:
+      except Exception:
         acc['abstract'] = "<a href='" + content['href'] + "' target='_blank'>Click here for the abstract"
     elif type(content) != Tag:
       acc['title'] += content.strip()
@@ -45,14 +46,16 @@ def generateDescription(acc, content):
   return acc
 
 def getSeminarInfo(seminar):
-  return reduce(generateDescription, seminar.contents[:-1], {'title':'', 'abstract':''})
+  return reduce(generateDescription, 
+                seminar.contents[:-1], 
+                {'title':'', 'abstract':''})
 
 def cleanTriplets(triplet):
   start, end = getDateTimeStartEnd(triplet[0].string)
   location = triplet[1].strip()[:-1]
 
   rawSeminars = triplet[2].find_all('li')
-  seminars = list(map(getSeminarInfo, rawSeminars))
+  seminars = [getSeminarInfo(seminar) for seminar in rawSeminars]
 
   if start and end and location and seminars and len(seminars) == 2:
     # print('\tSeminars processed')
@@ -85,8 +88,8 @@ def getEventList(soup):
   data = soup.body.contents
 
   triplets = filter(admissibleTriplets, 
-    ( (data[i], data[i+1], data[i+2]) for i in range(len(data)-2) )
-  )
+      ( (data[i], data[i+1], data[i+2]) for i in range(len(data)-2) )
+    )
 
   # We can accept empty abstracts but not empty titles
   events = filter(lambda s: s['title'] != " - ",

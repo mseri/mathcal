@@ -12,15 +12,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def root():
-  return "The service is active! For the calendar visit <a href='http://www.mseri.me/mathcal'>www.mseri.me/mathcal</a>"
+    return "The service is active! For the calendar visit <a href='http://www.mseri.me/mathcal'>www.mseri.me/mathcal</a>"
 
 @app.route('/json/las')
 def LAS():
-  return jsonifyLAS().cache
+    return jsonifyLAS().cache
 
 @app.route('/json/nts')
 def NTS():
-  return jsonifyNTS().cache
+    return jsonifyNTS().cache
 
 @app.route('/json/ic/sas')
 def SAS():
@@ -68,12 +68,14 @@ def GCAL(gcal_id):
 def add_cors(resp):
     """ Ensure all responses have the CORS headers. This ensures any failures are also accessible
         by the client. """
+
     resp.headers['Access-Control-Allow-Origin'] = request.headers.get('Origin','*')
     resp.headers['Access-Control-Allow-Credentials'] = 'true'
     resp.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS, GET'
 
     if app.debug:
         resp.headers['Access-Control-Max-Age'] = '1'
+
     return resp
 
 if __name__ == '__main__':

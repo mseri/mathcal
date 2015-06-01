@@ -3,14 +3,14 @@ from lib.helpers import *
 
 #########################################################
 # take the data and get the events
-def getSeminar(row_data):
+def getSeminar(dtt_, location_, description_):
 
-  datestring, timestring, title = list(map(lambda x: x.get_text().strip(), row_data[0].findAll('td')))
-  location = row_data[1].get_text().replace('Abstract', '').strip()
-  description = row_data[2].get_text().strip()
+  datestring, timestring, title = list(map(lambda x: x.get_text().strip(), dtt_.findAll('td')))
+  location = location_.get_text().replace('Abstract', '').strip()
+  description = description_.get_text().strip()
 
   if 'Description' in location:
-    location = 'For additional informations <a href="http://wwwf.imperial.ac.uk/~amijatov/IP/{}" target="_blank">click here</a>'.format(row_data[0].a['href'])
+    location = 'For additional informations <a href="http://wwwf.imperial.ac.uk/~amijatov/IP/{}" target="_blank">click here</a>'.format(dtt_.a['href'])
     description += '<br/><p>{}</p>'.format(location)
 
   if 'All day' in timestring:
@@ -33,8 +33,8 @@ def getSeminar(row_data):
 def getEventList(soup):
   data = soup.body.find('td', attrs={"class":"main"}).table.tbody.tr.table.tbody
   rows = data.find_all('tr')
-  seminars = map(getSeminar,
-    ( (rows[3*i],rows[3*i+1],rows[3*i+2]) for i in range(len(rows)//3) ))
+  seminars = [getSeminar(rows[3*i],rows[3*i+1],rows[3*i+2]) 
+              for i in range(len(rows)//3)]
 
   return seminars
 

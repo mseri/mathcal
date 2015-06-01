@@ -51,13 +51,13 @@ def getEventList(soup):
   data = soup.dl.contents
 
   couples = filter(admissibleCouples, 
-    ( (data[i], data[i+1]) for i in range(len(data)-2) )
-  )
+      ( (data[i], data[i+1]) for i in range(len(data)-2) )
+    )
 
   # We can accept empty abstracts but not empty titles
   events = filter(lambda ev: ev != None,
-        map(cleanCouple, couples)
-      )
+      map(cleanCouple, couples)
+    )
 
   return events
 

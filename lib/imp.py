@@ -9,8 +9,8 @@ def getSeminar(data):
   end = parse(data("imperialnewsevents:event_end_date")[0].text)
   description = "<a href='{}' target='_blank'>Click here for additional informations</a>.".format(data.link["href"])
   location = ", ".join([data("imperialnewsevents:location")[0].text, 
-      data("imperialnewsevents:source")[0].text,
-      data("imperialnewsevents:campus")[0].text])
+                        data("imperialnewsevents:source")[0].text,
+                        data("imperialnewsevents:campus")[0].text])
 
   seminar = {
     'start': start,

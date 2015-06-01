@@ -3,7 +3,8 @@ from lib.helpers import *
 
 def getGASSeminar(raw_seminar):
   try:
-    author, whenWhere = map(lambda em: em.get_text().strip(), raw_seminar.findAll('em'))
+    author, whenWhere = map(lambda em: em.get_text().strip(), 
+                            raw_seminar.findAll('em'))
     title = raw_seminar.strong.get_text().strip()
     abstract = raw_seminar.br.next.strip()
     day, times, location = whenWhere.split(', ')
