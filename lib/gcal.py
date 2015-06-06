@@ -1,23 +1,30 @@
 # -*- encoding: utf-8 -*-
-from lib.helpers import *
+from lib.helpers import jsonifySeminars, parse, CachedResult, re, requests
 from urllib.parse import quote
 
-WWREGEX = re.compile(r"When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to ([^§]*\d+:?\d*[ap]m).*Where: ([^§]*)§+.*")
+WWREGEX = re.compile(
+    r"When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to ([^§]*\d+:?\d*[ap]m).*Where: ([^§]*)§+.*")
 DESCREGEX = re.compile(r".*Event Description: (.*)")
+
 
 def encodeURI(str_):
   return quote(str_, safe=' ~@#$&()*!+=:;,.?/\'')
 
+
 def getSeminar(raw_seminar):
   title_obj = raw_seminar['title']
-  title = title_obj['$t'] if 'html' in title_obj['type'] else encodeURI(title_obj['$t'])
+  title = title_obj[
+      '$t'
+  ] if 'html' in title_obj['type'] else encodeURI(title_obj['$t'])
 
   # Workaround for duplicate London Analysis Seminar from Imperial Analysis calendar
   if "LANS" in title or "London Analysis and Probability Seminar" in title:
     return None
 
   content_obj = raw_seminar['content']
-  content_ = content_obj['$t'] if 'html' in content_obj['type'] else encodeURI(content_obj['$t'])
+  content_ = content_obj[
+      '$t'
+  ] if 'html' in content_obj['type'] else encodeURI(content_obj['$t'])
 
   # Get When and Where from the formatted content in the google calendar string
   # Takes a string of the form
@@ -57,35 +64,36 @@ def getSeminar(raw_seminar):
   end = parse(stop_)
 
   seminar = {
-    'start': start,
-    'end': end,
-    'title': title,
-    'description': description,
-    'location': location
+      'start': start,
+      'end': end,
+      'title': title,
+      'description': description,
+      'location': location
   }
 
   return seminar
 
+
 # data is a json decoded instance
 def getEventList(jdata):
   data = jdata['feed']['entry']
-  seminars = filter(lambda ev: ev != None,
-        map(getSeminar, data)
-      )
+  seminars = filter(lambda ev: ev != None, map(getSeminar, data))
 
   return seminars
 
 
 cache = {}
 
+
 #Google Calendar
 def jsonifyGCAL(gcal_id):
-  url = "https://www.google.com/calendar/feeds/{}/public/basic?alt=json&hl=en".format(gcal_id)
-  
+  url = "https://www.google.com/calendar/feeds/{}/public/basic?alt=json&hl=en".format(
+      gcal_id)
+
   if requests.head(url).status_code == requests.codes.NOT_FOUND:
     return CachedResult()
 
   if not gcal_id in cache:
     cache[gcal_id] = CachedResult()
 
-  return jsonifySeminars(url, getEventList, cache[gcal_id], jsonData = True)
+  return jsonifySeminars(url, getEventList, cache[gcal_id], isJson=True)
