@@ -48,7 +48,7 @@ def get_event_list(soup):
     return seminars
 
 
-def get_icmp(last_update):
-    """IC fortnightly seminar on topics in Mathematical Physics"""
+def get_ipc(last_update):
+    """Imperial Probability Centre"""
     return jsonify_seminars("http://wwwf.imperial.ac.uk/~amijatov/IP/index.php",
                             get_event_list, last_update=last_update)

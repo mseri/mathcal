@@ -1,7 +1,7 @@
 from scrapers.las import get_las
 from scrapers.nts import get_nts
 from scrapers.imp import get_sas, get_taktic, get_apde, get_ammp, get_fd, get_ftmp
-from scrapers.impprob import get_icmp
+from scrapers.impprob import get_ipc
 from scrapers.impgeom import get_ipgas, get_ipltgs
 from scrapers.gcal import get_gcal
 from scrapers.helpers import CachedObject, expired, EMPTY_CACHE
@@ -15,7 +15,7 @@ getter = {
     'ic/ammp': get_ammp,
     'ic/fd': get_fd,
     'ic/ftmp': get_ftmp,
-    'ic/icmp': get_icmp,
+    'ic/ipc': get_ipc,
     'ic/ipgas': get_ipgas,
     'ic/ipltgs': get_ipltgs
 }
