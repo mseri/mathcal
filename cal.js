@@ -101,7 +101,7 @@ var seminars_ = [
         url: "http://www.kcl.ac.uk/nms/depts/mathematics/research/analysis/events/seminars.aspx"
     },
     {
-        account: '/json/ic/ip',
+        account: '/json/ic/ipc',
         label: "Imperial Probability Centre",
         url: "http://wwwf.imperial.ac.uk/~amijatov/IP/index.php"
     },
