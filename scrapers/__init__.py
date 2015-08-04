@@ -6,6 +6,8 @@ from scrapers.impgeom import get_ipgas, get_ipltgs
 from scrapers.gcal import get_gcal
 from scrapers.helpers import CachedObject, expired, EMPTY_CACHE
 
+# TODO: add cache check using sha1 hash of the raw data...
+
 getter = {
     'las': get_las,
     'nts': get_nts,
