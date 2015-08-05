@@ -114,7 +114,7 @@ def get_event_list(soup):
     data = soup.body.contents
 
     triplets = filter(admissible_triplets, ((data[i], data[i + 1], data[i + 2])
-                                           for i in range(len(data) - 2)))
+                                            for i in range(len(data) - 2)))
 
     # We can accept empty abstracts but not empty titles
     events = filter(lambda s: s['title'] != " - ", chain.from_iterable(

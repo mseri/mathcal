@@ -25,7 +25,7 @@ def get_seminar_info(seminar):
         return (speaker + ' - ' + title, abstract +
                 "<br/><br/><i>There will be tea in room 606 from 4:15-4:45pm</i>.")
 
-    return (None, None)
+    return None, None
 
 
 def clean_couple(couple):
@@ -63,7 +63,7 @@ def get_event_list(soup):
     data = soup.dl.contents
 
     couples = filter(admissible_couples, ((data[i], data[i + 1])
-                                         for i in range(len(data) - 2)))
+                                          for i in range(len(data) - 2)))
 
     # We can accept empty abstracts but not empty titles
     events = filter(lambda ev: ev is not None, map(clean_couple, couples))

@@ -35,7 +35,7 @@ def get_seminar(raw_seminar):
     #   When: Thu Feb 19, 2015 3pm to 4pm \nGMT\u003cbr /\u003e\n\n\u003cbr /\u003eWhere: room S423\n\u003cbr /\u003eEvent Status: confirmed\n\u003cbr /\u003eEvent Description: some description
     #
     # strips it and then scrapes from it date, time, location and description.
-    content = re.sub(r"(<br \/>|\n)", "§", content_)
+    content = re.sub(r"(<br />|\n)", "§", content_)
     ww_match = WWREGEX.match(content)
 
     if ww_match is None or len(ww_match.groups()) < 3:

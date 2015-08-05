@@ -25,7 +25,6 @@ from bs4 import BeautifulSoup
 import requests
 
 
-
 # pylint: disable=E1101
 REQ_OK = requests.codes.ok
 REF_ZERO_DATE = datetime(1970, 1, 1)
@@ -47,9 +46,8 @@ def get_raw(url, last_update):
         return None
 
     last_modified = req.headers.get("last-modified")
-    if (last_modified and last_update
-        and timestamp(parse(last_modified)) <= timestamp(last_update)):
-        print("INFO: cache still current, skipping download of %s" % (url))
+    if last_modified and last_update and timestamp(parse(last_modified)) <= timestamp(last_update):
+        print("INFO: cache still current, skipping download of %s" % url)
         return None
 
     return req.content.decode("utf-8", "ignore")
@@ -91,6 +89,8 @@ class CachedObject:
 
 def expired(date_, ttl=60000):
     return timestamp(date_) + ttl < time()
+
+
 #########################################################
 # http://stackoverflow.com/questions/455580/json-datetime-between-python-and-javascript
 def jsonDateTimeHandler(obj):

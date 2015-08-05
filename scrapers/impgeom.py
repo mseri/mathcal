@@ -79,8 +79,6 @@ def getEventListGAS(soup):
 def getEventListLTGS(soup):
     raw_seminars = soup.findAll("div",
                                 attrs={"class": "postentry"})[0].findAll("p")
-    data = ((raw_seminars[2 * i], raw_seminars[2 * i + 1])
-            for i in range(len(raw_seminars) // 2))
     seminars = filter(lambda s: s is not None, map(getLTGSeminar, raw_seminars))
     return seminars
 

@@ -5,6 +5,7 @@ from scrapers.impprob import get_ipc
 from scrapers.impgeom import get_ipgas, get_ipltgs
 from scrapers.gcal import get_gcal
 from scrapers.helpers import CachedObject, expired, EMPTY_CACHE
+from collections import defaultdict
 
 # TODO: add cache check using sha1 hash of the raw data...
 
@@ -22,11 +23,11 @@ getter = {
     'ic/ipltgs': get_ipltgs
 }
 
-_gcal_cache = {}
+_gcal_cache = defaultdict(CachedObject())
 
 
 def gcal(gcal_id):
-    cached = _gcal_cache.get(gcal_id, CachedObject())
+    cached = _gcal_cache[gcal_id]
     if expired(cached.last_update) or cached.cache == EMPTY_CACHE:
         cached.cache = get_gcal(gcal_id, cached.last_update)
         _gcal_cache[gcal_id] = cached
@@ -34,11 +35,11 @@ def gcal(gcal_id):
     return cached.cache
 
 
-_cache = {}
+_cache = defaultdict(CachedObject())
 
 
 def custom(path):
-    cached = _cache.get(path, CachedObject())
+    cached = _cache[path]
     if expired(cached.last_update) or cached.cache == EMPTY_CACHE:
         if path in getter:
             cached.cache = getter[path](cached.last_update)
