@@ -23,7 +23,7 @@ getter = {
     'ic/ipltgs': get_ipltgs
 }
 
-_gcal_cache = defaultdict(CachedObject())
+_gcal_cache = defaultdict(CachedObject)
 
 
 def gcal(gcal_id):
@@ -35,7 +35,7 @@ def gcal(gcal_id):
     return cached.cache
 
 
-_cache = defaultdict(CachedObject())
+_cache = defaultdict(CachedObject)
 
 
 def custom(path):
