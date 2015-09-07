@@ -20,7 +20,7 @@ getter = {
     'ic/ftmp': get_ftmp,
     'ic/ipc': get_ipc,
     'ic/ipgas': get_ipgas,
-    'ic/ipltgs': get_ipltgs
+    'ic/ipltgs': get_ipltgs,
 }
 
 _gcal_cache = defaultdict(CachedObject)

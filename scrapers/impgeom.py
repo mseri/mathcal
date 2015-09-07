@@ -78,19 +78,18 @@ def getEventListGAS(soup):
 
 def getEventListLTGS(soup):
     raw_seminars = soup.findAll("div",
-                                attrs={"class": "postentry"})[0].findAll("p")
+                                attrs={"class": "entry-content"})[0].findAll("p")
     seminars = filter(lambda s: s is not None, map(getLTGSeminar, raw_seminars))
     return seminars
 
 
 def get_ipgas(last_update=None):
     """IC Geometry and Analysis Seminar"""
-
     return jsonify_seminars("http://geometry.ma.ic.ac.uk/gaseminar/",
-                        getEventListGAS, last_update=last_update)
+                            getEventListGAS, last_update=last_update)
 
 
 def get_ipltgs(last_update=None):
     """IC The London Topology and Geometry Seminar"""
     return jsonify_seminars("http://geometry.ma.ic.ac.uk/seminar/",
-                           getEventListLTGS, last_update=last_update)
+                            getEventListLTGS, last_update=last_update)
