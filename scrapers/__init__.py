@@ -30,7 +30,8 @@ def gcal(gcal_id):
     cached = _gcal_cache[gcal_id]
     if expired(cached.last_update) or cached.cache == EMPTY_CACHE:
         cached.cache = get_gcal(gcal_id, cached.last_update)
-        _gcal_cache[gcal_id] = cached
+        if cached.cache != EMPTY_CACHE:
+            _gcal_cache[gcal_id] = cached
 
     return cached.cache
 
@@ -43,6 +44,7 @@ def custom(path):
     if expired(cached.last_update) or cached.cache == EMPTY_CACHE:
         if path in getter:
             cached.cache = getter[path](cached.last_update)
-            _cache[path] = cached
+            if cached.cache != EMPTY_CACHE:
+                _cache[path] = cached
 
     return cached.cache
