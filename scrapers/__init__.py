@@ -29,8 +29,9 @@ _gcal_cache = defaultdict(CachedObject)
 def gcal(gcal_id):
     cached = _gcal_cache[gcal_id]
     if expired(cached.last_update) or cached.cache == EMPTY_CACHE:
-        cached.cache = get_gcal(gcal_id, cached.last_update)
-        if cached.cache != EMPTY_CACHE:
+        cache = get_gcal(gcal_id, cached.last_update)
+        if cache != EMPTY_CACHE:
+            cached.cache = cache
             _gcal_cache[gcal_id] = cached
 
     return cached.cache
@@ -43,8 +44,9 @@ def custom(path):
     cached = _cache[path]
     if expired(cached.last_update) or cached.cache == EMPTY_CACHE:
         if path in getter:
-            cached.cache = getter[path](cached.last_update)
-            if cached.cache != EMPTY_CACHE:
+            cache = getter[path](cached.last_update)
+            if cache != EMPTY_CACHE:
+                cached.cache = cache
                 _cache[path] = cached
 
     return cached.cache

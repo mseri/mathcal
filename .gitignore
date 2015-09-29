@@ -4,3 +4,4 @@ lib/printutils.py
 lib/*.html
 __pycache__
 __pycache__/*
+.idea/
