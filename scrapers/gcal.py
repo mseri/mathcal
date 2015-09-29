@@ -7,6 +7,9 @@ from urllib.parse import quote
 
 WWREGEX = re.compile(
     r"When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to ([^§]*\d+:?\d*[ap]m).*Where: ([^§]*)§+.*")
+WWPERIODREGEX = re.compile(
+    r"When: (\w{3} \w{3} \d+, \d{4}) to (\w{3} \w{3} \d+, \d{4}).*")
+
 DESCREGEX = re.compile(r".*Event Description: (.*)")
 
 
@@ -34,27 +37,39 @@ def get_seminar(raw_seminar):
     #
     #   When: Thu Feb 19, 2015 3pm to 4pm \nGMT\u003cbr /\u003e\n\n\u003cbr /\u003eWhere: room S423\n\u003cbr /\u003eEvent Status: confirmed\n\u003cbr /\u003eEvent Description: some description
     #
+    # Or, rarely, 
+    #
+    #    When: Wed Sep 30, 2015 to Fri Oct 2, 2015 \n\u003cbr\u003e\n\n\n\u003cbr\u003e
+    #
     # strips it and then scrapes from it date, time, location and description.
     content = re.sub(r"(<br />|\n)", "§", content_)
     ww_match = WWREGEX.match(content)
 
     if ww_match is None or len(ww_match.groups()) < 3:
-        return None
+        ww_match1 = WWPERIODREGEX.match(content)
+        if ww_match1 is not None and len(ww_match1.groups()) == 2:
+            start_ = "".join([ww_match1.groups()[0], " 9:00am"])
+            stop_ = "".join([ww_match1.groups()[1], " 6:00pm"])
+            location = "Unknown, pleas check the event description or the seminar website"
+        else:
+            return None
     else:
         ww_data = ww_match.groups()
 
-    # Fix start and stop datetime format:
-    # get (\d\d?)([ap]m) and make into $1:00 $2
-    start_ = re.sub(r"([ap]m)", r" \1", ww_data[0])
-    start_ = re.sub(r" (\d\d?) ", r" \1:00 ", start_)
+        print(ww_data)
 
-    # Add the day in front of the stop time string
-    # and fix the time
-    stop_ = re.sub(r"\d\d?:?\d?\d?\s?[ap]m", ww_data[1], ww_data[0])
-    stop_ = re.sub(r"([ap]m)", r" \1", stop_)
-    stop_ = re.sub(r" (\d\d?) ", r" \1:00 ", stop_)
+        # Fix start and stop datetime format:
+        # get (\d\d?)([ap]m) and make into $1:00 $2
+        start_ = re.sub(r"([ap]m)", r" \1", ww_data[0])
+        start_ = re.sub(r" (\d\d?) ", r" \1:00 ", start_)
 
-    location = ww_data[2]
+        # Add the day in front of the stop time string
+        # and fix the time
+        stop_ = re.sub(r"\d\d?:?\d?\d?\s?[ap]m", ww_data[1], ww_data[0])
+        stop_ = re.sub(r"([ap]m)", r" \1", stop_)
+        stop_ = re.sub(r" (\d\d?) ", r" \1:00 ", stop_)
+
+        location = ww_data[2]
 
     desc_match = DESCREGEX.match(content)
 
