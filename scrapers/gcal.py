@@ -9,8 +9,8 @@ WWREGEX = re.compile(
     r"When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to ([^§]*\d+:?\d*[ap]m).*Where: ([^§]*)§+.*")
 WWPERIODREGEX = re.compile(
     r"When: (\w{3} \w{3} \d+, \d{4}) to (\w{3} \w{3} \d+, \d{4}).*")
-
 DESCREGEX = re.compile(r".*Event Description: (.*)")
+URLREGEX = re.compile(r"(https?://[^ ]+)")
 
 
 def encode_URI(str_):
@@ -50,13 +50,11 @@ def get_seminar(raw_seminar):
         if ww_match1 is not None and len(ww_match1.groups()) == 2:
             start_ = "".join([ww_match1.groups()[0], " 9:00am"])
             stop_ = "".join([ww_match1.groups()[1], " 6:00pm"])
-            location = "Unknown, pleas check the event description or the seminar website"
+            location = "Unknown, please check the event description or the seminar website"
         else:
             return None
     else:
         ww_data = ww_match.groups()
-
-        print(ww_data)
 
         # Fix start and stop datetime format:
         # get (\d\d?)([ap]m) and make into $1:00 $2
@@ -77,6 +75,16 @@ def get_seminar(raw_seminar):
         description = re.sub(r"§", '<br />', desc_match.groups()[0])
     else:
         description = ''
+
+    if location.startswith("Unknown"):
+        if description == '':
+            return None
+        else:
+            url_search = URLREGEX.search(description)
+            if url_search is not None:
+                description = URLREGEX.sub(r'<a href="\1">\1</a>', description)
+            
+            description += "<br /><br /><p>Be aware that dates and times shown for this event might not be reliable. Please refer to the seminar official website, or any link above this paragraph, for the details.</p>"
 
     start = parse(start_)
     end = parse(stop_)
@@ -109,4 +117,7 @@ def get_gcal(gcal_id, last_update=None):
     if requests.head(url).status_code == requests.codes.NOT_FOUND:
         return None
 
-    return jsonify_seminars(url, get_event_list, isJson=True, last_update=last_update)
+    return jsonify_seminars(url,
+                            get_event_list,
+                            isJson=True,
+                            last_update=last_update)
