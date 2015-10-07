@@ -74,7 +74,7 @@ def get_seminar_info(seminar):
 
 def clean_triplets(triplet):
     start, end = get_date_time_start_end(triplet[0].string)
-    location = triplet[1].strip()[:-1]
+    location = triplet[1].strip()
 
     raw_seminars = triplet[2].find_all('li')
     seminars = [get_seminar_info(seminar) for seminar in raw_seminars]
