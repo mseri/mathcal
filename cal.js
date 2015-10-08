@@ -169,6 +169,11 @@ var seminars_ = [
         account: '/json/ic/ftmp',
         label: "IC fortnightly seminar on topics in Mathematical Physics",
         url: "http://www3.imperial.ac.uk/mathematicalphysics/events"
+    },
+    {
+        account: '/json/ic/bms',
+        label: "IC biomathematics group's seminar",
+        url: "http://www.imperial.ac.uk/biomathematics-group/seminars/"
     }
 ];
 // interface AddThisEvent {
