@@ -223,7 +223,7 @@ var seminars_: ISeminarData[] = [
 // declare var addthisevent: AddThisEvent;
 
 // Modified when we add new seminars
-var lastIndexUpdate = new Date("Thu Oct 8 2015 19:24:57 GMT+0100 (BST)");
+var lastIndexUpdate = new Date("Thu Oct 8 2015 20:24:57 GMT+0100 (BST)");
 var lastLocalUpdate = JSON.parse(localStorage.getItem('lastUpdate'));
 
 if (!(lastLocalUpdate instanceof Date)) {
@@ -233,7 +233,7 @@ if (!(lastLocalUpdate instanceof Date)) {
 var seminars: ISeminarData[];
 var events: { [id: string]: Event; } = {};
 
-if (!localStorage.getItem('seminars') || lastLocalUpdate < lastIndexUpdate) {
+if ((!localStorage.getItem('seminars')) || lastLocalUpdate < lastIndexUpdate) {
   // Add the Id and enable all seminars.
   // Generate the colors in a "rainbow" fashion.
   for (var i = 0; i < seminars_.length; i++) {
