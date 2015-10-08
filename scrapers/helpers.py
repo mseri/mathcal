@@ -119,7 +119,7 @@ def timestamp(datetime_obj):
 
 #########################################################
 
-def jsonify_seminars(url, get_event_list, isJson=False, last_update=None):
+def jsonify_seminars(url, get_event_list, isJson=False, last_update=None, parser="html5lib"):
     """Process the data obtained from url and returns a json dump
     of the updated list of event.
 
@@ -139,7 +139,7 @@ def jsonify_seminars(url, get_event_list, isJson=False, last_update=None):
         if isJson:
             data = json.loads(rawdata)
         else:
-            data = BeautifulSoup(rawdata, "html.parser") #"html5lib"
+            data = BeautifulSoup(rawdata, parser)
 
         event_list = get_event_list(data)
         return json.dumps(list(event_list), default=jsonDateTimeHandler)

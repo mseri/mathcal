@@ -51,4 +51,4 @@ def get_event_list(soup):
 def get_ipc(last_update):
     """Imperial Probability Centre"""
     return jsonify_seminars("http://wwwf.imperial.ac.uk/~amijatov/IP/index.php",
-                            get_event_list, last_update=last_update)
+                            get_event_list, last_update=last_update, parser="html.parser")
