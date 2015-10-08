@@ -1,7 +1,7 @@
 beautifulsoup4==4.4.1
 Flask==0.10.1
 gunicorn==19.2.1
-html5lib==0.999
+html5lib==0.9999999
 itsdangerous==0.24
 Jinja2==2.7.3
 MarkupSafe==0.23

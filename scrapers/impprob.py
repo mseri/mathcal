@@ -37,12 +37,12 @@ def get_seminar(dtt_, location_, description_):
 
 def get_event_list(soup):
     try:
-        data = soup.body.find('td',
-                              attrs={"class": "main"}).table.tbody.tr.table.tbody
+        data = soup.findAll('td', class_="main")[0].table.td.table
         rows = data.find_all('tr')
         seminars = [get_seminar(rows[3 * i], rows[3 * i + 1], rows[3 * i + 2])
                     for i in range(len(rows) // 3)]
-    except AttributeError:
+    except (IndexError,AttributeError) as e:
+        print(e)
         seminars = []
 
     return seminars

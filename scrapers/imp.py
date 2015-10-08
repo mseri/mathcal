@@ -86,3 +86,9 @@ def get_ftmp(last_update=None):
     return jsonify_seminars(
         "http://www3.imperial.ac.uk/imperialnewsevents/eventsfront?pid=5751_177356114_5751_177356049_177356049",
         get_event_list, last_update=last_update)
+
+def get_bms(last_update=None):
+    """Biomathematical sciences seminar"""
+    return jsonify_seminars(
+        "http://www3.imperial.ac.uk/imperialnewsevents/eventsummary?s=177175253",
+        get_event_list, last_update=last_update)

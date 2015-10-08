@@ -139,7 +139,7 @@ def jsonify_seminars(url, get_event_list, isJson=False, last_update=None):
         if isJson:
             data = json.loads(rawdata)
         else:
-            data = BeautifulSoup(rawdata, "html5lib")
+            data = BeautifulSoup(rawdata, "html.parser") #"html5lib"
 
         event_list = get_event_list(data)
         return json.dumps(list(event_list), default=jsonDateTimeHandler)

@@ -1,6 +1,6 @@
 from scrapers.las import get_las
 from scrapers.nts import get_nts
-from scrapers.imp import get_sas, get_taktic, get_apde, get_ammp, get_fd, get_ftmp
+from scrapers.imp import get_sas, get_taktic, get_apde, get_ammp, get_fd, get_ftmp, get_bms
 from scrapers.impprob import get_ipc
 from scrapers.impgeom import get_ipgas, get_ipltgs
 from scrapers.gcal import get_gcal
@@ -21,6 +21,7 @@ getter = {
     'ic/ipc': get_ipc,
     'ic/ipgas': get_ipgas,
     'ic/ipltgs': get_ipltgs,
+    'ic/bms': get_bms
 }
 
 _gcal_cache = defaultdict(CachedObject)
