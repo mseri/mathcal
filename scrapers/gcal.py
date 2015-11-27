@@ -7,6 +7,8 @@ from urllib.parse import quote
 
 WWREGEX = re.compile(
     r"When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to ([^§]*\d+:?\d*[ap]m).*Where: ([^§]*)§+.*")
+WWNOWHEREREGEX = re.compile(
+    r"When: (\w{3} \w{3} \d+, \d{4} \d+:?\d*[ap]m) to ([^§]*\d+:?\d*[ap]m).*")
 WWPERIODREGEX = re.compile(
     r"When: (\w{3} \w{3} \d+, \d{4}) to (\w{3} \w{3} \d+, \d{4}).*")
 DESCREGEX = re.compile(r".*Event Description: (.*)")
@@ -52,7 +54,27 @@ def get_seminar(raw_seminar):
             stop_ = "".join([ww_match1.groups()[1], " 6:00pm"])
             location = "Unknown, please check the event description or the seminar website"
         else:
-            return None
+            ww_match1 = WWNOWHEREREGEX.match(content)
+
+            if len(ww_match1.groups() == 2):
+                ww_data = ww_match1.groups()
+
+                # TODO: reduce duplication here
+
+                # Fix start and stop datetime format:
+                # get (\d\d?)([ap]m) and make into $1:00 $2
+                start_ = re.sub(r"([ap]m)", r" \1", ww_data[0])
+                start_ = re.sub(r" (\d\d?) ", r" \1:00 ", start_)
+
+                # Add the day in front of the stop time string
+                # and fix the time
+                stop_ = re.sub(r"\d\d?:?\d?\d?\s?[ap]m", ww_data[1], ww_data[0])
+                stop_ = re.sub(r"([ap]m)", r" \1", stop_)
+                stop_ = re.sub(r" (\d\d?) ", r" \1:00 ", stop_)
+
+                location = "Unknown, please check the event description or the seminar website"
+            else:
+                return None
     else:
         ww_data = ww_match.groups()
 
