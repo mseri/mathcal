@@ -2,7 +2,7 @@ from flask import Flask, request
 from scrapers import gcal, custom
 
 app = Flask(__name__)
-app.debug = False
+app.debug = True
 
 
 @app.route('/')

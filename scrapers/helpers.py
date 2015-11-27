@@ -17,6 +17,7 @@ The events in the list returned by getEventList are of the form:
 import calendar
 from datetime import datetime
 from dateutil.parser import parse
+from ics import Calendar
 import json
 from time import time
 
@@ -119,7 +120,7 @@ def timestamp(datetime_obj):
 
 #########################################################
 
-def jsonify_seminars(url, get_event_list, isJson=False, last_update=None, parser="html5lib"):
+def jsonify_seminars(url, get_event_list, isJson=False, isIcs=False, last_update=None, parser="html5lib"):
     """Process the data obtained from url and returns a json dump
     of the updated list of event.
 
@@ -138,6 +139,8 @@ def jsonify_seminars(url, get_event_list, isJson=False, last_update=None, parser
         print("INFO: JSONification of ", url)
         if isJson:
             data = json.loads(rawdata)
+        elif isIcs:
+            data = Calendar(rawdata)
         else:
             data = BeautifulSoup(rawdata, parser)
 
