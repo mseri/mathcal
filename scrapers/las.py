@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 import re
+from datetime import datetime
 from functools import reduce
 from itertools import chain
 
@@ -21,6 +22,8 @@ def get_date_time_start_end(data):
     regex = re.compile('(\w*,\s\d+\s\w*),\s(.*[ap]m)')
     res = regex.search(data)
 
+    year = " {} ".format(datetime.now().year)
+
     if res:
         date, times = res.groups()
 
@@ -29,9 +32,9 @@ def get_date_time_start_end(data):
 
         if res:
             start_date_time = parse(
-                date + ' 2015 ' + tAdjust(res.group(1)) + ' ' + res.group(3))
+                date + year + tAdjust(res.group(1)) + ' ' + res.group(3))
             end_date_time = parse(
-                date + ' 2015 ' + tAdjust(res.group(2)) + ' ' + res.group(3))
+                date + year + tAdjust(res.group(2)) + ' ' + res.group(3))
 
             return start_date_time, end_date_time
 

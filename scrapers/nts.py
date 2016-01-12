@@ -16,15 +16,18 @@ def get_date_time_start_end(data, _time):
 
 
 def get_seminar_info(seminar):
-    speaker = seminar('acm.nom')[0].getText().replace('\n', '')
+    try:
+        speaker = seminar('b')[0].getText().strip()
 
-    if speaker != 'NO SEMINAR':
-        title = seminar('i')[1].getText().strip()
-        abstract = "<br/> ".join(map(lambda s: s.getText().strip(),
-                                     seminar('i')[2:]))
-        return (speaker + ' - ' + title, abstract +
-                "<br/><br/><i>There will be tea in room 606 from 4:15-4:45pm</i>.")
-
+        if speaker != 'NO SEMINAR':
+            title = seminar('i')[1].getText().strip()
+            abstract = "<br/> ".join(map(lambda s: s.getText().strip(),
+                                         seminar('i')[2:]))
+            return (speaker + ' - ' + title, abstract +
+                    "<br/><br/><i>There will be tea in room 606 from 4:15-4:45pm</i>.")
+    except (IndexError, TypeError, AttributeError):
+        # log the error
+        pass
     return None, None
 
 
@@ -38,7 +41,7 @@ def clean_couple(couple):
         title = "WARN: two seminars"
         description = "There are probably two seminars. <a href='http://www.homepages.ucl.ac.uk/~ucahsze/seminars.html' target='_blank'>Click here for additional informations</a>."
     else:
-        title, description = get_seminar_info(couple[1].contents.pop())
+        title, description = get_seminar_info(couple[1])
 
     if title is not None:
         seminar = {
