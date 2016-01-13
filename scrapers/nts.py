@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
-from scrapers.helpers import jsonify_seminars
+
+from bs4 import Tag
+from datetime import datetime
 from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
-from bs4 import Tag
+from scrapers.helpers import jsonify_seminars
 
 
 #########################################################
@@ -10,7 +12,8 @@ from bs4 import Tag
 
 
 def get_date_time_start_end(data, _time):
-    start = parse(data + ' 2015 ' + _time)
+    year = " {} ".format(datetime.now().year)
+    start = parse(data + year + _time)
     end = start + relativedelta(hours=+1)
     return start, end
 
