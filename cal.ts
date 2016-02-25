@@ -59,6 +59,7 @@ function genColor(idx: number, l: number) {
   return rgbToHex.apply(this, rgb);
 }
 
+var gray = rgbToHex.apply(this, hslToRgb(0,0,0.7));
 
 // Takes a HEX coluor and add the provided amount to each component.
 // Use negative numbers to darken (do not exaggerate).
@@ -280,6 +281,13 @@ function listEvents(root, seminarData: ISeminarData) {
   // After populating the calendar, remove the appropriate loading spinner.
   var spinner = "#" + seminarData.id + " .spinner";
   $(spinner).remove();
+  
+  var spinners = $(".spinner");
+  //console.log(spinners);
+  if (!spinners || spinners.length==0) {
+    var btn = document.getElementById("prefBtnId") as HTMLButtonElement;
+    btn.disabled = false;
+  }
 }
 
 function isNotNull(element): boolean {
@@ -305,36 +313,69 @@ function getEvent(entry, seminarData: ISeminarData) {
 }
 
 // Style and generate the legenda for a given seminar
-function legendElement(seminarData: ISeminarData) {
-  var item = [
-    '<li id="',
-    seminarData.id,
-    '" style="border-color:',
-    lightenDarkenColor(seminarData.color, -42),
-    '; background-color:',
-    seminarData.color,
-    ';">',
-    addCheckbox(seminarData),
-    '<a style="text-decoration: none; color:',
-    ';"><a style="text-decoration: none; color:',
-    lightenDarkenColor(seminarData.color, -112),
-    ';" href="',
-    seminarData.url,
-    '" target="_blank">',
-    seminarData.label,
-    addSpinner(seminarData.enabled),
-    '</li>\n'
-  ];
-  return item.join("");
+function legendElement(seminarData: ISeminarData) {  
+    var li = document.createElement("li");
+    li.id = seminarData.id;
+    if (seminarData.enabled) {
+        li.style.borderColor = lightenDarkenColor(seminarData.color, -42);
+        li.style.backgroundColor = seminarData.color;
+    } else {
+        li.style.borderColor = lightenDarkenColor(gray, -42);
+        li.style.backgroundColor = gray;
+    }
+    
+    var cb = document.createElement("input");
+    cb.id = "cb-" + seminarData.id;
+    cb.type = "checkbox";
+    if (seminarData.enabled) { cb.checked = true; }
+    
+    var a = document.createElement("a");
+    a.style.textDecoration = "none";
+    a.style.color = lightenDarkenColor(seminarData.color, -112);
+    a.href = seminarData.url;
+    a.target = "_blank";
+    a.innerHTML = seminarData.label;
+    
+    li.appendChild(cb);
+    li.appendChild(a);
+    
+    if (seminarData.enabled) {
+        var spinner = generateSpinner();
+        li.appendChild(spinner);
+    }
+    
+    return li;
 }
 
-// TODO: See if return type can be made HTMLDivElement | ''
-function addSpinner(isEnabled: boolean): string {
-  if (isEnabled) {
-    return '<div class="spinner"></div>';
-  } else {
-    return '';
-  }
+// Generate seminars' legend
+function generateLegend(seminars: ISeminarData[]) {
+  var h2 = document.createElement("h2");
+  h2.id = "legendTitle";
+  h2.innerHTML = "Colours Legend";
+  
+  var ul = document.createElement("ul");
+  seminars.forEach(function(seminar){
+    ul.appendChild(legendElement(seminar));  
+  });
+  
+  var btn = document.createElement("BUTTON") as HTMLButtonElement;
+  var txt = document.createTextNode("Save preferences");
+  btn.id = "prefBtnId";
+  btn.disabled = false;
+  btn.appendChild(txt);
+  btn.addEventListener("click", updatePreferences);
+  
+  $('#legend').empty();
+  var legend = document.getElementById("legend");
+  legend.appendChild(h2);
+  legend.appendChild(ul);
+  legend.appendChild(btn);
+}
+
+function generateSpinner() {
+    var spinner = document.createElement("div");
+    spinner.className = "spinner";
+    return spinner;
 }
 
 // Takes a number num and left-pad it with at most size zeroes
@@ -359,7 +400,8 @@ function formatDate(date: Date): string {
 function addCalBtn(seminar): string {
   var sStart = formatDate(new Date(seminar.start));
   var sEnd = formatDate(new Date(seminar.end));
-  return '<br/><br/><div title="Add to Calendar" class="addthisevent" data-role="none" rel="external">' +
+  return '<br/><br/>' + 
+    '<div title="Add to Calendar" class="addthisevent" data-role="none" rel="external">' +
     'Add to Calendar' +
     '<span class="start">' + sStart + '</span>' +
     '<span class="end">' + sEnd + '</span>' +
@@ -369,29 +411,6 @@ function addCalBtn(seminar): string {
     '<span class="location">' + seminar.location + '</span>' +
     '<span class="date_format">DD/MM/YYYY</span>' +
     '</div>';
-}
-
-function addCheckbox(seminarData: ISeminarData): string {
-  var checked;
-  if (seminarData.enabled) {
-    checked = 'checked';
-  }
-  else {
-    checked = '';
-  }
-  return '<input type="checkbox" ' + checked + ' onclick="seminarClicked(\'' + seminarData.id + '\')"/>';
-}
-
-// Generate seminars' legend
-function generateLegend(seminars: ISeminarData[]) {
-  var legend = ['<h2 id="legendTitle">Colours Legend</h2><ul>'];
-  legend = legend.concat(seminars.map(legendElement));
-  legend.push('</ul>');
-  
-  // For some reason I get unpredictable behavior if I don't 
-  // first clear the html.
-  $('#legend').html("");
-  $('#legend').html(legend.join(""));
 }
 
 // Gets the data and populates the calendar
@@ -404,35 +423,37 @@ function entryEnabled(seminarData: ISeminarData): boolean {
   return seminarData.enabled;
 }
 
-$(document).ready(function() {
-  generateLegend(seminars);
-  populateCalendar();
-});
-
-function seminarClicked(cid: string) {
-  // This block is hacked up, the "any" allows us to turn off (in some sense)
-  // typescript type check of this function.
-  // TODO: refactor the code to avoid this hack
-  var checkbox = <HTMLInputElement>$("#" + cid + " input")[0];
+function updatePreferences() {
+  var btn = document.getElementById("prefBtnId") as HTMLButtonElement;
+  btn.disabled = true;
+  
   for (var i = 0; i < seminars.length; i++) {
-    if (seminars[i].id == cid) {
-      seminars[i].enabled = !seminars[i].enabled;
-      console.log(seminars[i]);
-      if (seminars[i].enabled) {
-        checkbox.setAttribute("checked", "");
-      } else {
-        checkbox.removeAttribute("checked");
-      }
-    }
-    if (seminars[i].enabled) {
-      var li = $("#" + seminars[i].id)[0];
-      li.innerHTML = li.innerHTML + addSpinner(true);
+    var s = seminars[i];
+    var checked = (document.getElementById("cb-" + s.id) as HTMLInputElement).checked;
+    var li = document.getElementById(s.id);
+    
+    if (isNotNull(checked) && checked) {
+      seminars[i].enabled = true;
+      li.style.borderColor = lightenDarkenColor(s.color, -42);
+      li.style.backgroundColor = s.color;
+      li.appendChild(generateSpinner());
+    } else {
+      seminars[i].enabled = false;
+      li.style.borderColor = lightenDarkenColor(gray, -42);
+      li.style.backgroundColor = gray;
     }
   }
+  
   // I am saving redundant data: the complete series of events. 
   localStorage.setItem('seminars', JSON.stringify(seminars));
 
   populateCalendar();
 }
+
+
+$(document).ready(function() {
+  generateLegend(seminars);
+  populateCalendar();
+});
 
 // TODO: - understand "allDay" events or multiple days ones
