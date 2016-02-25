@@ -82,7 +82,7 @@ def clean_triplets(triplet):
     raw_seminars = triplet[2].find_all('li')
     seminars = [get_seminar_info(seminar) for seminar in raw_seminars]
 
-    if start and end and location and seminars and len(seminars) == 2:
+    if start and end and location and seminars:
         # print('\tSeminars processed')
         seminar1 = {
             'start': start,
@@ -92,14 +92,17 @@ def clean_triplets(triplet):
             'location': location
         }
 
-        seminar2 = {
-            'start': end + relativedelta(hours=-1),
-            'end': end,
-            'title': seminars[1]['title'],
-            'description': seminars[1]['abstract'],
-            'location': location
-        }
-        return [seminar1, seminar2]
+        if len(seminars) == 2:
+            seminar2 = {
+                'start': end + relativedelta(hours=-1),
+                'end': end,
+                'title': seminars[1]['title'],
+                'description': seminars[1]['abstract'],
+                'location': location
+            }
+            return [seminar1, seminar2]
+
+        return [seminar1]
 
     # print('\tNot enough data to process')
     return None
