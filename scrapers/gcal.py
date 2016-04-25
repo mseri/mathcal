@@ -7,14 +7,17 @@ from urllib.parse import quote
 URLREGEX = re.compile(r"(https?://[^ ]+)")
 
 
+from datetime import timedelta, tzinfo
+from scrapers.helpers import jsonDateTimeHandler
+
 def encode_URI(str_):
     return quote(str_, safe=' ~@#$&()*!+=:;,.?/\'')
 
 
 def get_seminar(raw_seminar):
-    _b = raw_seminar.begin
+    _b = jsonDateTimeHandler(raw_seminar.begin) + " UTC"
     if raw_seminar.has_end():
-        _e = raw_seminar.end
+        _e = jsonDateTimeHandler(raw_seminar.end) + " UTC"
     else:
         _e = None
 
@@ -50,8 +53,8 @@ def get_seminar(raw_seminar):
                 Please refer to the seminar official website, or any link above this paragraph, for the details.</p>"
 
         seminar = {
-            'start': _b + " UTC",
-            'end': _e + " UTC",
+            'start': _b,
+            'end': _e,
             'title': name,
             'description': description,
             'location': location
