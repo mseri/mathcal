@@ -50,8 +50,8 @@ def get_seminar(raw_seminar):
                 Please refer to the seminar official website, or any link above this paragraph, for the details.</p>"
 
         seminar = {
-            'start': _b,
-            'end': _e,
+            'start': _b + " UTC",
+            'end': _e + " UTC",
             'title': name,
             'description': description,
             'location': location
