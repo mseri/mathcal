@@ -51,9 +51,17 @@
       font-size: 1.1em;
     }
 
-    #description {
+    .description {
       float: left;
-      width: 100%;
+      width: 45%;
+    }
+
+    .websites {
+      float: right;
+      width: 45%;
+    }
+
+    .extras {
       margin-top: 20px;
       /*border: 1px solid lightgray;*/
       border-top: 1px solid gray;
@@ -61,7 +69,8 @@
       padding-right: 10px;
     }
 
-    #description h2 {
+
+    .extras h2 {
       margin-top: 0;
       padding-top: 5px;
     }
@@ -73,16 +82,19 @@
       <h1 id="title">BI's Maths Event Calendar</h1>
       <div id="calendar"></div>
 
-      <div id="description">
+      <div class="extras description">
         <h2>More information</h2>
-        <p>This calendar contains all the mathematics seminars at the Bernoulli Insitute.
-          You can register it to your google calendar by <a href="https://calendar.google.com/calendar/u/0/r?cid=c_b4d712f2b5a417adafb832cce42cd76018640a81022f0162edfa242cada06b87%40group.calendar.google.com">clicking here</a> or to any Calendar application registering <a href="https://calendar.google.com/calendar/ical/c_b4d712f2b5a417adafb832cce42cd76018640a81022f0162edfa242cada06b87%40group.calendar.google.com/public/basic.ics">this iCal url</a>: right click, select 'Copy Link' and finally subscribe to the online calendar with your favourite calendar app.</p>
+        <p>This calendar aims to contain all the mathematics seminars at the <a href="https://www.rug.nl/research/bernoulli/">Bernoulli Insitute</a>.</p>
+        <p>You can add this calendar to your current google calendar by <a href="https://calendar.google.com/calendar/u/0/r?cid=c_b4d712f2b5a417adafb832cce42cd76018640a81022f0162edfa242cada06b87%40group.calendar.google.com">clicking here</a>. You can also subscribe to this calendar with any Calendar application using <a href="https://calendar.google.com/calendar/ical/c_b4d712f2b5a417adafb832cce42cd76018640a81022f0162edfa242cada06b87%40group.calendar.google.com/public/basic.ics">this iCal url</a>: right click, select 'Copy Link' and subscribe to the online calendar with your favourite calendar app.</p>
       </div>
 
-      <div id="websites">
-        The events appearing in this calendar include, among others, the following seminars:
+      <div class="extras websites">
+        <h2>Individual websites</h2>
+        <p>
+          The events appearing in this calendar include, among others, the following seminars:
+        </p>
         <ul>
-          <li><a href="https://www.rug.nl/research/bernoulli/calendar/colloquia/mathematics-colloquia-oriented/">Bernoulli Mathematics Colloquium</a></li>
+          <li><a href="https://www.rug.nl/research/bernoulli/calendar/colloquia/mathematics-colloquia-oriented/">Mathematics Colloquium</a></li>
           <li><a href="https://www.math.rug.nl/algebra/Main/Seminar">Algebra seminar</a></li>
           <li><a href="https://www.rug.nl/research/bernoulli/groups/dsgmp/calendar/floris-takens-seminar/?lang=en">Floris Takens seminar</a></li>
           <li><a href="https://www.math.rug.nl/stat/Stoch/Sem">Probability seminar</a></li>
