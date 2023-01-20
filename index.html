@@ -131,10 +131,10 @@
           // Don't allow navigation
           info.jsEvent.preventDefault();
 
-          var event = info.event
-          console.log(event);
           //set the values and open the modal
-          $("#eventInfo").html(event.extendedProps.description);
+          var event = info.event
+          let d = event.extendedProps.description;
+          $("#eventInfo").html(d ? d : "");
           $("#eventStart").html(moment(event.start).format("dddd, MMMM Do YYYY, h(:mm) a")  + ' - ' +  moment(event.end).format("h(:mm) a"));
           let w = event.extendedProps.location;
           if (w && (w = $.trim(w))) {$("#eventLocation").html("Location: " + w)} else {$("#eventLocation").html("Location: TBD")};
