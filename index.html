@@ -42,6 +42,15 @@
       cursor: pointer;
     }
 
+    #eventInfo {
+      margin-top: 20px;
+      text-align: justify;
+    }
+
+    #eventInfo > h3 {
+      font-size: 1.1em;
+    }
+
     #description {
       float: left;
       width: 100%;
@@ -79,7 +88,7 @@
               <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
             </div>
 
-            <div class="modal-body text-center"><br/>
+            <div class="modal-body">
               <h6 id="eventStart"></h6>
               <h7 id="eventLocation"></h7>
               <div id="eventInfo"></div>
@@ -123,10 +132,11 @@
           info.jsEvent.preventDefault();
 
           var event = info.event
+          console.log(event);
           //set the values and open the modal
-          $("#eventInfo").html(event.content);
+          $("#eventInfo").html(event.extendedProps.description);
           $("#eventStart").html(moment(event.start).format("dddd, MMMM Do YYYY, h(:mm) a")  + ' - ' +  moment(event.end).format("h(:mm) a"));
-          let w = event.where;
+          let w = event.extendedProps.location;
           if (w && (w = $.trim(w))) {$("#eventLocation").html("Location: " + w)} else {$("#eventLocation").html("Location: TBD")};
           $("#eventTitle").html(event.title);
           $("#eventLink").attr('href', event.url);
