@@ -169,7 +169,7 @@
           var event = info.event
           let d = event.extendedProps.description;
           $("#eventInfo").html(d ? d : "");
-          $("#eventStart").html(moment(event.start).format("dddd, MMMM Do YYYY, h(:mm) a")  + ' - ' +  moment(event.end).format("h(:mm) a"));
+          $("#eventStart").html(moment(event.start).format("dddd, MMMM Do YYYY, HH:mm")  + ' - ' +  moment(event.end).format("HH:mm"));
           let w = event.extendedProps.location;
           if (w && (w = $.trim(w))) {$("#eventLocation").html("Location: " + w)} else {$("#eventLocation").html("Location: TBD")};
           $("#eventTitle").html(event.title);
