@@ -139,11 +139,17 @@
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
         },
-        displayEventTime: false, // don't show the time column in list view
+        displayEventTime: true, // don't show the time column in list view
         //dayMaxEvents: true, // allow "more" link when too many eventggs
         weekends: false,
         businessHours: true,
         editable: false,
+        slotLabelFormat: {
+          hour12: false,
+          hour: '2-digit',
+          minute: '2-digit',
+          omitZeroMinute: false,
+        },
         //timeZone: "Europe/Amsterdam",
 
         googleCalendarApiKey: 'AIzaSyABuHnFcJTh1mX2Omk7Fa6yoJjaJ39Qo28',
