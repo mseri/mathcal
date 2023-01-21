@@ -42,6 +42,10 @@
       cursor: pointer;
     }
 
+    .fc-dayGridMonth-view .fc-event-time{
+      display : none;
+    }
+
     #eventInfo {
       margin-top: 20px;
       text-align: justify;
@@ -75,7 +79,7 @@
       padding-top: 5px;
     }
 
-  </style>
+    </style>
   </head>
   <body>
     <div id="container">
@@ -140,7 +144,7 @@
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
         },
-        displayEventTime: true, // don't show the time column in list view
+        displayEventTime: true, // show the time column in list view
         //dayMaxEvents: true, // allow "more" link when too many eventggs
         weekends: false,
         businessHours: true,
